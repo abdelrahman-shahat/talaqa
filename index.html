@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2B44D4">
+<title>طلاقة للإنجليزي</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one-screen phone app. Header, one scrolling view per tab, bottom tab bar.
+   The talk tab docks a big round voice orb at the bottom: the one loud element. */
+:root{
+  --paper:#F3F5FB; --surface:#FFFFFF; --ink:#131A34; --muted:#5A6283; --line:#DDE2EF;
+  --accent:#2B44D4; --accent-ink:#FFFFFF; --accent-soft:#E4E8FF;
+  --bad:#C4372C; --bad-soft:#FBE7E5; --good:#16805A; --good-soft:#E1F3EA; --warn:#A86A12;
+  --font-display:"Alexandria","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --font-en:"Atkinson Hyperlegible","Segoe UI",Roboto,Arial,sans-serif;
+  --r:14px;
+  --shadow:0 1px 2px rgba(19,26,52,.06),0 10px 28px -14px rgba(19,26,52,.22);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1121; --surface:#161B30; --ink:#E7EAF6; --muted:#9BA3C2; --line:#283050;
+    --accent:#7D8DFF; --accent-ink:#0D1121; --accent-soft:#222A55;
+    --bad:#FF8075; --bad-soft:#3A1F22; --good:#4FCB97; --good-soft:#15342A; --warn:#E9B35A;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1121; --surface:#161B30; --ink:#E7EAF6; --muted:#9BA3C2; --line:#283050;
+  --accent:#7D8DFF; --accent-ink:#0D1121; --accent-soft:#222A55;
+  --bad:#FF8075; --bad-soft:#3A1F22; --good:#4FCB97; --good-soft:#15342A; --warn:#E9B35A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.en{font-family:var(--font-en);direction:ltr;text-align:left;unicode-bidi:isolate}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.3}
+h2{font-size:1.3rem;font-weight:800}
+h3{font-size:1.02rem;font-weight:700}
+p{margin:0}
+ol{margin:0;padding-inline-start:1.3em;display:flex;flex-direction:column;gap:6px}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stack{display:flex;flex-direction:column;gap:12px}
+.spacer{flex:1}
+
+#app{display:grid;grid-template-rows:auto 1fr auto;height:100%;max-width:640px;margin:0 auto;background:var(--paper)}
+header.top{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 10px) 16px 10px;border-bottom:1px solid var(--line);background:var(--paper)}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+.brand h1{font-size:1.45rem;font-weight:800;letter-spacing:0}
+.brand .ipa{font-family:var(--font-en);font-size:.85rem;color:var(--muted);direction:ltr;white-space:nowrap}
+.iconbtn{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);flex:none}
+.iconbtn svg{width:20px;height:20px}
+
+main{position:relative;overflow:hidden}
+.view{position:absolute;inset:0;overflow-y:auto;display:none;padding:16px 16px 28px}
+.view.on{display:block}
+#v-talk{padding:0;overflow:hidden}
+#v-talk.on{display:grid;grid-template-rows:auto 1fr auto}
+
+nav.tabs{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--surface);padding-bottom:env(safe-area-inset-bottom)}
+nav.tabs button{position:relative;border:0;background:none;padding:8px 2px 9px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted);font-size:.74rem;font-weight:600}
+nav.tabs button svg{width:22px;height:22px}
+nav.tabs button[aria-selected="true"]{color:var(--accent)}
+nav.tabs button[aria-selected="true"]::before{content:"";position:absolute;top:0;left:28%;right:28%;height:3px;border-radius:0 0 3px 3px;background:var(--accent)}
+.badge{position:absolute;top:4px;inset-inline-start:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--bad);color:#fff;font-size:.68rem;line-height:18px;font-variant-numeric:tabular-nums}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:8px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;font-size:.92rem;text-decoration:none}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.sm{min-height:34px;padding:4px 10px;font-size:.84rem;border-radius:10px}
+.btn.wide{width:100%}
+.btn[disabled]{opacity:.5;cursor:default}
+.btn.on{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.danger{color:var(--bad);border-color:var(--bad)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:.86rem;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.tag{display:inline-block;padding:1px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-size:.74rem;font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.note{padding:10px 12px;border-radius:12px;background:var(--accent-soft);font-size:.9rem}
+.note.warn{background:var(--bad-soft)}
+.note.ok{background:var(--good-soft)}
+label.f{display:block;font-size:.84rem;font-weight:600;color:var(--muted);margin-bottom:4px}
+input[type="text"],input[type="search"],input[type="password"],textarea,select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);min-height:44px}
+textarea{resize:vertical;min-height:84px;line-height:1.55}
+
+/* ---------- Talk ---------- */
+.talk-top{display:flex;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid var(--line);background:var(--surface)}
+.talk-top .scen{font-weight:700;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.talk-top .time{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.84rem}
+.msgs{min-height:0;overflow-y:auto;padding:16px 16px 12px;display:flex;flex-direction:column;gap:12px}
+.bubble{max-width:88%;padding:10px 14px;border-radius:18px;font-family:var(--font-en);font-size:1.08rem;line-height:1.5;direction:ltr;text-align:left;overflow-wrap:anywhere}
+.turn{display:flex;flex-direction:column;gap:6px}
+.turn.ai{align-items:flex-end}
+.turn.user{align-items:flex-start}
+.turn.ai .bubble{background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:6px}
+.turn.user .bubble{background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:6px}
+.turn.live .bubble{opacity:.85}
+.turn .tools{display:flex;gap:4px}
+.mini{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:10px;border:0;background:transparent;color:var(--muted)}
+.mini svg{width:18px;height:18px}
+.mini:hover{background:var(--accent-soft);color:var(--accent)}
+.word{cursor:pointer;border-radius:4px}
+.word:hover{background:var(--accent-soft)}
+.dots{display:inline-flex;gap:4px;padding:4px 0}
+.dots i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.4;animation:blink 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+.fix{max-width:92%;width:100%;border-radius:14px;border:1px solid var(--line);background:var(--surface);padding:10px 12px;display:flex;flex-direction:column;gap:8px;font-size:.92rem}
+.fix-item{display:flex;flex-direction:column;gap:2px}
+.fix-line{font-family:var(--font-en);direction:ltr;text-align:left;font-size:1rem;overflow-wrap:anywhere}
+.fix-line del{color:var(--bad);text-decoration-thickness:2px}
+.fix-line ins{color:var(--good);text-decoration:none;font-weight:700}
+.fix-line .arrow{color:var(--muted);margin:0 6px}
+.fix .why{color:var(--muted)}
+.fix .better{border-top:1px dashed var(--line);padding-top:8px}
+.ok-chip{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;color:var(--good);font-weight:600}
+.ok-chip svg{width:15px;height:15px}
+.wait-chip{font-size:.8rem;color:var(--muted)}
+.fold{border:0;background:var(--bad-soft);color:var(--bad);border-radius:999px;padding:3px 12px;font-size:.8rem;font-weight:700}
+
+.dock{border-top:1px solid var(--line);background:var(--surface);padding:10px 16px 12px;display:flex;flex-direction:column;gap:10px}
+#live{min-height:1.6em;font-family:var(--font-en);font-size:1.15rem;line-height:1.45;direction:ltr;text-align:left;color:var(--ink)}
+#live.status{font-family:var(--font-body);direction:rtl;text-align:right;color:var(--muted);font-size:.92rem}
+.dock-main{display:flex;align-items:center;gap:14px}
+.mic{--lvl:0;position:relative;flex:none;width:78px;height:78px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;box-shadow:var(--shadow);transition:box-shadow .08s linear}
+.mic svg{width:32px;height:32px;position:relative;z-index:1}
+.mic.listening{box-shadow:0 0 0 calc(var(--lvl) * 22px) color-mix(in srgb, var(--accent) 28%, transparent),var(--shadow)}
+.mic.rec{background:var(--bad);color:#fff}
+.mic.speaking::before,.mic.speaking::after,.mic.rec::before,.mic.rec::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid currentColor;animation:ring 1.8s ease-out infinite}
+.mic.speaking{color:var(--accent-ink)}
+.mic.speaking::before,.mic.speaking::after{border-color:var(--accent)}
+.mic.rec::before,.mic.rec::after{border-color:var(--bad)}
+.mic.speaking::after,.mic.rec::after{animation-delay:.9s}
+.mic.muted,.mic.off{background:var(--line);color:var(--muted)}
+.mic.wait{background:var(--accent-soft);color:var(--accent)}
+.mic[disabled]{opacity:.55}
+@keyframes ring{from{transform:scale(1);opacity:.7}to{transform:scale(1.6);opacity:0}}
+.mic-side{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.mic-label{font-weight:700;font-size:1rem}
+.dock-form{display:flex;gap:8px}
+.dock-form input{flex:1}
+
+.welcome{display:flex;flex-direction:column;gap:14px}
+.hero{padding:6px 0 2px}
+.hero h2{font-size:1.5rem;line-height:1.35}
+.hero p{margin-top:6px;color:var(--muted)}
+.scen-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scen-card{text-align:right;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.scen-card b{font-family:var(--font-display);font-weight:700;font-size:.95rem}
+.scen-card span{font-size:.8rem;color:var(--muted);line-height:1.45}
+.scen-card[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.scen-card[aria-pressed="true"] b{color:var(--accent)}
+.setup{border:2px solid var(--accent)}
+.setup .num{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:.8rem;font-weight:700;flex:none}
+
+/* ---------- Shared result blocks ---------- */
+.item{display:flex;flex-direction:column;gap:4px;padding:12px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .head{display:flex;align-items:flex-start;gap:8px}
+.item .en-big{font-family:var(--font-en);font-size:1.18rem;font-weight:700;direction:ltr;text-align:left;flex:1;min-width:0;overflow-wrap:anywhere}
+.item .ipa{font-family:var(--font-en);color:var(--muted);font-size:.9rem;direction:ltr}
+.item .ar{font-weight:600}
+.item .ex{font-family:var(--font-en);direction:ltr;text-align:left;color:var(--muted);font-size:.95rem}
+.item .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.78rem;color:var(--muted)}
+.boxdots{display:inline-flex;gap:3px;direction:ltr}
+.boxdots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.boxdots i.f{background:var(--good)}
+.pre{white-space:pre-wrap;overflow-wrap:anywhere}
+.preview{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.preview img{display:block;width:100%;max-height:320px;object-fit:contain;background:var(--paper)}
+.preview .iconbtn{position:absolute;top:8px;left:8px}
+details summary{cursor:pointer;font-weight:600;color:var(--muted)}
+
+.practice{display:flex;flex-direction:column;gap:8px}
+.result{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:12px;background:var(--paper)}
+.result .marks{font-family:var(--font-en);direction:ltr;text-align:left;font-size:1.08rem;line-height:1.7}
+.result .marks span{padding:0 2px;border-radius:4px}
+.result .marks .y{color:var(--good)}
+.result .marks .n{color:var(--bad);background:var(--bad-soft);text-decoration:underline wavy;text-underline-offset:4px}
+.score{font-family:var(--font-display);font-weight:800;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.score.good{color:var(--good)}.score.mid{color:var(--warn)}.score.low{color:var(--bad)}
+.drill .text{font-family:var(--font-en);font-size:1.3rem;line-height:1.45;direction:ltr;text-align:left;font-weight:700}
+
+/* ---------- Progress ---------- */
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.tile b{display:block;font-family:var(--font-display);font-size:1.7rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{font-size:.82rem;color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:7.5em 1fr 2.2em;align-items:center;gap:8px;font-size:.86rem}
+.bar .track{height:10px;border-radius:5px;background:var(--paper);overflow:hidden;border:1px solid var(--line)}
+.bar .fill{display:block;height:100%;background:var(--bad);border-radius:5px}
+.bar .n{font-variant-numeric:tabular-nums;text-align:left}
+.level-badge{font-family:var(--font-en);font-weight:700;font-size:2.2rem;line-height:1;color:var(--accent)}
+
+/* ---------- Sheet + toast ---------- */
+#sheet{position:fixed;inset:0;z-index:20;display:none}
+#sheet.on{display:block}
+#sheet .scrim{position:absolute;inset:0;background:rgba(10,14,30,.45)}
+#sheet .panel{position:absolute;left:0;right:0;bottom:0;max-width:640px;margin:0 auto;max-height:90%;overflow-y:auto;background:var(--paper);border-radius:20px 20px 0 0;padding:14px 16px calc(env(safe-area-inset-bottom) + 20px);box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+#sheet .grab{width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 10px}
+#sheet .sheet-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+#sheet .sheet-head h2{flex:1;font-size:1.15rem}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:30;max-width:min(92vw,520px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:12px;font-size:.92rem;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+.flash{text-align:center;padding:18px 8px}
+.flash .en-card{font-family:var(--font-en);font-size:1.7rem;font-weight:700;line-height:1.35;direction:ltr}
+.range{display:flex;align-items:center;gap:10px}
+.range input{flex:1}
+.range output{min-width:3.4em;font-variant-numeric:tabular-nums;font-weight:700}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0}
+.switch input{width:22px;height:22px}
+.sect{display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+
+@media (prefers-reduced-motion: reduce){
+  .mic::before,.mic::after,.dots i{animation:none!important}
+  #toast,.mic{transition:none}
+}
+@media (min-width:520px){
+  .scen-grid{grid-template-columns:repeat(3,1fr)}
+  .tiles{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="brand"><h1>طلاقة</h1><span class="ipa">fluency /ˈfluːənsi/</span></div>
+    <span class="spacer"></span>
+    <button class="iconbtn" id="gear" type="button" aria-label="الإعدادات"></button>
+  </header>
+  <main>
+    <section class="view" id="v-talk" aria-label="محادثة"></section>
+    <section class="view" id="v-lens" aria-label="العدسة"></section>
+    <section class="view" id="v-lib" aria-label="كلماتي"></section>
+    <section class="view" id="v-pron" aria-label="النطق"></section>
+    <section class="view" id="v-prog" aria-label="تقدمي"></section>
+  </main>
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+</div>
+<div id="sheet" aria-hidden="true"><div class="scrim"></div><div class="panel" role="dialog" aria-modal="true"></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= Utilities ================= */
+const $ = (s, el = document) => el.querySelector(s);
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  if (attrs) for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'text') el.textContent = v;
+    else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : String(v));
+  }
+  for (const kid of kids.flat(Infinity)) {
+    if (kid == null || kid === false) continue;
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const ICONS = {
+  mic: '<path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/>',
+  micoff: '<path d="M15 9.5V6a3 3 0 0 0-5.7-1.3M9 9v3a3 3 0 0 0 4.9 2.3M19 11a7 7 0 0 1-1.2 3.9M5 11a7 7 0 0 0 10.9 5.8M12 18v3M4 4l16 16"/>',
+  stop: '<rect x="7" y="7" width="10" height="10" rx="2"/>',
+  send: '<path d="M12 19V6M6 11l6-6 6 6"/>',
+  speaker: '<path d="M4 10v4h3l5 4V6L7 10H4Z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/>',
+  star: '<path d="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7L8.2 13.3l-4-3.7 5.4-.6L12 4Z"/>',
+  trash: '<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>',
+  camera: '<path d="M4 8h3l2-2h6l2 2h3v11H4V8Z"/><circle cx="12" cy="13" r="3.5"/>',
+  image: '<rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m4 17 5-4 4 3 3-2 4 3"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/>',
+  x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  check: '<path d="m5 12 4.5 4.5L19 7"/>',
+  chat: '<path d="M5 5h14v10H10l-5 4V5Z"/>',
+  lens: '<circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/>',
+  book: '<path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"/><path d="M5 17a3 3 0 0 1 3-3h10"/>',
+  wave: '<path d="M4 12h2M8 8v8M12 5v14M16 8v8M20 12h-2"/>',
+  chart: '<path d="M5 19V9M12 19V5M19 19v-7"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/>',
+  copy: '<rect x="8" y="8" width="11" height="11" rx="2"/><path d="M5 15V5h10"/>',
+  refresh: '<path d="M19 8a7 7 0 1 0 1 5M19 4v4h-4"/>',
+  turtle: '<path d="M4 15h16M6 15a6 6 0 0 1 12 0M18 13l2-1"/>',
+  key: '<circle cx="8" cy="15" r="4"/><path d="m11 12 8-8M16 7l2 2M14 9l2 2"/>',
+  dots: '<circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>'
+};
+function icon(name) {
+  const s = h('span', { 'aria-hidden': 'true', style: 'display:inline-grid' });
+  s.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
+  return s;
+}
+const uid = (p) => p + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 7);
+let toastTimer = null;
+function toast(msg) {
+  if (!msg) return;
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('on'), 3600);
+}
+function dayKey(ts) { const d = new Date(ts); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+function fmtDate(ts) { try { return new Date(ts).toLocaleDateString('ar-EG', { day: 'numeric', month: 'short' }); } catch { return ''; } }
+const clean = (s) => String(s == null ? '' : s).replace(/\s+/g, ' ').trim();
+const arr = (x) => Array.isArray(x) ? x : [];
+function hashStr(s) { let x = 0; s = String(s); for (let i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) | 0; return (x >>> 0).toString(36); }
+function bytesToB64(u8) { let s = ''; const CH = 0x8000; for (let i = 0; i < u8.length; i += CH) s += String.fromCharCode.apply(null, u8.subarray(i, i + CH)); return btoa(s); }
+function b64ToBytes(b64) { const s = atob(b64); const u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
+function lsGet(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } }
+
+/* ================= Constants ================= */
+const SCENARIOS = [
+  { id: 'free', ar: 'كلام حر', desc: 'ندردش في أي موضوع، وهو يفتح مواضيع جديدة', en: 'Free conversation. Ask the learner about their life, work, interests and opinions, and move between topics naturally.' },
+  { id: 'interview', ar: 'انترفيو شغل', desc: 'انترفيو لوظيفة Supply Chain بالإنجليزي', en: 'Job interview. You are a hiring manager at an international manufacturing company interviewing the learner for a supply-planning / MRP role. Ask one interview question at a time and follow up on the answers.' },
+  { id: 'meeting', ar: 'اجتماع شغل', desc: 'اجتماع مع المشتريات عن نقص خامات', en: 'Work meeting. You are a procurement manager. The learner is a planning supervisor. You meet about a raw-material shortage that threatens next week\'s production plan. Discuss quantities, dates and alternatives.' },
+  { id: 'smalltalk', ar: 'دردشة مع زميل', desc: 'Small talk في البريك مع زميل أجنبي', en: 'Small talk with a friendly foreign colleague during a coffee break.' },
+  { id: 'airport', ar: 'مطار وسفر', desc: 'تشيك إن، جوازات، شنط', en: 'Airport. You play the airline check-in agent, then the passport officer. Keep it realistic.' },
+  { id: 'hotel', ar: 'فندق', desc: 'تشيك إن ومشكلة في الأوضة', en: 'Hotel reception. The learner checks in, then reports a problem with the room.' },
+  { id: 'restaurant', ar: 'مطعم', desc: 'تطلب أكل وتسأل عن الأطباق', en: 'Restaurant. You are the waiter. The learner orders and asks about dishes.' },
+  { id: 'doctor', ar: 'عند الدكتور', desc: 'توصف أعراض بسيطة', en: 'Doctor visit. You are a general practitioner. The learner describes mild, common symptoms. Keep it general and simple.' },
+  { id: 'opinion', ar: 'نقاش ورأي', desc: 'يطرح قضية وانت تدافع عن رأيك', en: 'Debate. Propose an everyday debatable topic (remote work, social media, city or village life), ask the learner\'s opinion, and politely challenge it so they explain and defend it.' },
+  { id: 'custom', ar: 'موقف من عندك', desc: 'اكتب الموقف اللي عايز تتمرّن عليه', en: '' }
+];
+const SCEN = Object.fromEntries(SCENARIOS.map((s) => [s.id, s]));
+const TYPE_AR = { grammar: 'قواعد', tense: 'الأزمنة', preposition: 'حروف الجر', article: 'a / an / the', 'word choice': 'اختيار الكلمة', 'word order': 'ترتيب الكلام', pronunciation: 'النطق', other: 'حاجات تانية' };
+const LEVELS = [['A2', 'مبتدئ متقدم'], ['B1', 'متوسط'], ['B2', 'فوق المتوسط'], ['C1', 'متقدم']];
+const TONES = [['formal', 'رسمي'], ['friendly', 'ودّي'], ['firm', 'حازم'], ['brief', 'مختصر']];
+const TAGS = ['شغل', 'سفر', 'يومي', 'إيميلات', 'Phrasal verbs'];
+const INTERVALS = [1, 2, 4, 7, 15, 30];
+const GVOICES = ['Kore', 'Puck', 'Charon', 'Aoede', 'Fenrir', 'Leda', 'Orus', 'Zephyr'];
+const STARTER_DRILLS = [
+  { text: 'Please put the paper bag by the pool.', focus: 'P و B', tip: 'P من غير صوت من الحنجرة ومعاها نفَس خفيف، و B بصوت. حط إيدك قدام بقك وحس النفَس مع P.' },
+  { text: 'Very few people visit the village in February.', focus: 'V و F', tip: 'V زي F بالظبط بس بصوت: سنانك اللي فوق على شفتك اللي تحت والحنجرة شغالة.' },
+  { text: 'I think these three things are worth it.', focus: 'TH', tip: 'طرف لسانك بين سنانك. think و three زي الثاء، these زي الذال.' },
+  { text: 'The ship is cheap, but the sheep is not.', focus: 'i القصيرة و ee الطويلة', tip: 'ship قصيرة ومرتخية، sheep طويلة والشفايف مشدودة كأنك بتبتسم.' },
+  { text: 'She sells sea shells at the station.', focus: 'S و SH', tip: 'S زي السين، و SH زي الشين، و station فيها SH في النص.' },
+  { text: 'I walked, talked, and worked all weekend.', focus: 'نهاية ‎-ed', tip: 'بعد أصوات زي k و p و s و sh و ch بتتنطق t: walked = /wɔːkt/ من غير "إد".' },
+  { text: 'Spring street splits into three strong streams.', focus: 'حروف ساكنة ورا بعض', tip: 'ما تحطش ألف في الأول: spring مش "إسبرينج". ابدأ بالـ S على طول.' },
+  { text: 'Let me check the chart and change the schedule.', focus: 'CH', tip: 'CH صوت واحد زي "تش". schedule في الأمريكي بتبدأ بـ "سك".' }
+];
+const DEFAULT_SETTINGS = { apiKey: '', level: 'B1', accent: 'US', correct: 'instant', silenceMs: 1200, rate: 0.95, gvoice: 'Kore', autoSpeak: true, mode: 'live', liveModel: '', textModel: '' };
+
+/* ================= State ================= */
+const S = {
+  tab: 'talk',
+  settings: { ...DEFAULT_SETTINGS, ...lsGet('talaqa_settings', {}) },
+  items: {},
+  convo: null,
+  scen: 'free', customScen: '', draft: '', liveText: '',
+  lens: { mode: 'name', file: null, url: '', text: '', intent: '', tone: 'formal', desc: '', result: null, busy: false, err: '' },
+  lib: { q: '', tag: 'all', addText: '', addTag: '' },
+  pron: { drills: STARTER_DRILLS, source: 'sounds', busy: false },
+  prog: { drills: null, busy: false, assessBusy: false, answers: {} },
+  practice: {}
+};
+function saveSettings() { lsSet('talaqa_settings', S.settings); }
+
+/* ================= Storage (on this phone) ================= */
+const Store = {
+  t: null,
+  load() { S.items = lsGet('talaqa_items', {}) || {}; },
+  saveSoon() { clearTimeout(this.t); this.t = setTimeout(() => this.save(), 300); },
+  save() {
+    clearTimeout(this.t);
+    if (lsSet('talaqa_items', S.items)) return;
+    pruneTranscripts(8);
+    if (!lsSet('talaqa_items', S.items)) toast('مساحة الحفظ على الموبايل اتملت. اعمل نسخة احتياطية من الإعدادات وامسح حاجات قديمة.');
+  },
+  put(id, obj) { S.items[id] = JSON.parse(JSON.stringify({ ...obj, id })); this.saveSoon(); renderSoon(); return S.items[id]; },
+  patch(id, part) { const cur = S.items[id]; if (!cur) return null; return this.put(id, { ...cur, ...part }); },
+  del(id) { delete S.items[id]; this.saveSoon(); renderSoon(); },
+  all(kind) { return Object.values(S.items).filter((x) => x && x.kind === kind); }
+};
+function pruneTranscripts(keep) {
+  Store.all('session').sort((a, b) => (b.ts || 0) - (a.ts || 0)).slice(keep).forEach((s) => { if (s.transcript) { s.transcript = ''; } });
+}
+window.addEventListener('pagehide', () => Store.save());
+
+/* ================= Gemini: models + text calls ================= */
+const API = 'https://generativelanguage.googleapis.com/v1beta';
+const LIVE_URL = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent';
+const LIVE_PREF = ['gemini-3.8-live', 'gemini-3.1-flash-live-preview', 'gemini-2.5-flash-native-audio-preview-12-2025', 'gemini-2.5-flash-native-audio-latest'];
+const QUICK_PREF = ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3.8-flash', 'gemini-3.5-flash', 'gemini-3.6-flash', 'gemini-3-flash-preview', 'gemini-2.5-flash-lite', 'gemini-2.5-flash'];
+const SMART_PREF = ['gemini-3.8-flash', 'gemini-3.5-flash', 'gemini-3.6-flash', 'gemini-3-flash-preview', 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];
+const Models = {
+  info: lsGet('talaqa_models', null), // {ts, live:[], text:[]}
+  bad: lsGet('talaqa_badmodels', {}),
+  async refresh() {
+    const key = S.settings.apiKey; if (!key) throw { code: 'no_key' };
+    const live = [], text = [];
+    let token = '', guard = 0;
+    do {
+      let r;
+      try { r = await fetch(API + '/models?pageSize=1000' + (token ? '&pageToken=' + encodeURIComponent(token) : ''), { headers: { 'x-goog-api-key': key } }); }
+      catch { throw { code: 'network' }; }
+      if (!r.ok) throw await apiErr(r);
+      const j = await r.json();
+      for (const m of arr(j.models)) {
+        const id = String(m.name || '').replace(/^models\//, '');
+        const meth = arr(m.supportedGenerationMethods);
+        if (meth.includes('bidiGenerateContent') && !/translate|transcribe/i.test(id)) live.push(id);
+        if (meth.includes('generateContent') && /^gemini-/.test(id) && !/image|tts|embed|live|audio|robotics|computer|customtools/i.test(id)) text.push(id);
+      }
+      token = j.nextPageToken || '';
+    } while (token && ++guard < 5);
+    this.info = { ts: Date.now(), live, text };
+    this.bad = {}; lsSet('talaqa_badmodels', this.bad);
+    lsSet('talaqa_models', this.info);
+    return this.info;
+  },
+  usable(m) { const t = this.bad[m]; return !t || t < Date.now(); },
+  markBad(m, ms) { this.bad[m] = Date.now() + ms; lsSet('talaqa_badmodels', this.bad); },
+  chain(pref, availList, override, extraRe) {
+    const out = [];
+    const add = (m) => { if (m && !out.includes(m) && this.usable(m)) out.push(m); };
+    if (override) add(override);
+    if (availList && availList.length) {
+      pref.filter((m) => availList.includes(m)).forEach(add);
+      availList.filter((m) => !extraRe || extraRe.test(m)).sort().reverse().forEach(add);
+    } else pref.forEach(add);
+    return out;
+  },
+  liveChain() { return this.chain(LIVE_PREF, this.info && this.info.live, S.settings.liveModel, /live|native-audio/i).filter((m) => !/extended-thinking/.test(m) || m === S.settings.liveModel); },
+  textChain(kind) { return this.chain(kind === 'smart' ? SMART_PREF : QUICK_PREF, this.info && this.info.text, S.settings.textModel, /flash/i); }
+};
+async function apiErr(r) {
+  let message = '', status = '';
+  try { const j = await r.json(); message = (j.error && j.error.message) || ''; status = (j.error && j.error.status) || ''; } catch {}
+  if (r.status === 400 && /API key not valid|API_KEY_INVALID/i.test(message)) return { code: 'bad_key', status: r.status, message };
+  if (/location is not supported/i.test(message)) return { code: 'region', status: r.status, message };
+  return { code: 'http', status: r.status, gstatus: status, message };
+}
+function parseJSON(text) {
+  const t = String(text || '').trim();
+  try { return JSON.parse(t); } catch {}
+  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) { try { return JSON.parse(fence[1]); } catch {} }
+  const a = t.search(/[[{]/); const b = Math.max(t.lastIndexOf('}'), t.lastIndexOf(']'));
+  if (a >= 0 && b > a) { try { return JSON.parse(t.slice(a, b + 1)); } catch {} }
+  throw { code: 'invalid_json' };
+}
+let lastModelUsed = '';
+async function gen({ system, contents, prompt, parts, json = true, kind = 'quick' }) {
+  const key = S.settings.apiKey; if (!key) throw { code: 'no_key' };
+  if (!contents) contents = [{ role: 'user', parts: parts || [{ text: prompt }] }];
+  const body = { contents, generationConfig: json ? { responseMimeType: 'application/json' } : {} };
+  if (system) body.systemInstruction = { parts: [{ text: system }] };
+  const payload = JSON.stringify(body);
+  const chain = Models.textChain(kind);
+  if (!chain.length) throw { code: 'no_model' };
+  let lastErr = null;
+  for (const m of chain) {
+    let r;
+    try { r = await fetch(API + '/models/' + m + ':generateContent', { method: 'POST', headers: { 'content-type': 'application/json', 'x-goog-api-key': key }, body: payload }); }
+    catch { throw { code: 'network' }; }
+    if (r.ok) {
+      const j = await r.json();
+      const cand = j.candidates && j.candidates[0];
+      const text = cand && cand.content ? arr(cand.content.parts).filter((p) => !p.thought).map((p) => p.text || '').join('') : '';
+      if (!text) {
+        if ((j.promptFeedback && j.promptFeedback.blockReason) || (cand && cand.finishReason === 'SAFETY')) throw { code: 'refused' };
+        lastErr = { code: 'empty' }; continue;
+      }
+      lastModelUsed = m;
+      return json ? parseJSON(text) : text;
+    }
+    const e = await apiErr(r);
+    if (e.code === 'bad_key' || e.code === 'region') throw e;
+    lastErr = e;
+    if (r.status === 429) {
+      const msg = e.message || '';
+      Models.markBad(m, /limit: 0\b/.test(msg) ? 24 * 3600e3 : /per ?day|PerDay/i.test(msg) ? 6 * 3600e3 : 60e3);
+      lastErr = { code: 'quota', message: msg }; continue;
+    }
+    if (r.status === 404 || r.status === 403 || (r.status === 400 && /not (found|supported)|unsupported|is not available/i.test(e.message))) { Models.markBad(m, 24 * 3600e3); continue; }
+    if (r.status >= 500) continue;
+    throw e;
+  }
+  throw lastErr || { code: 'no_model' };
+}
+function errMsg(e) {
+  const c = e && e.code;
+  switch (c) {
+    case 'no_key': return 'حط مفتاح Gemini الأول. دوس على الترس فوق.';
+    case 'bad_key': return 'مفتاح Gemini مش شغال. اتأكد إنك نسخته كامل من AI Studio.';
+    case 'region': return 'Gemini مش متاح من المكان اللي انت فيه حالياً.';
+    case 'quota': return 'الحصة المجانية خلصت مؤقتاً. استنى دقيقة وجرّب. لو فضلت كده يبقى حصة النهارده خلصت.';
+    case 'network': return 'مفيش اتصال بالنت، أو Google مش بيرد. جرّب تاني.';
+    case 'refused': return 'Gemini ما ردّش على الطلب ده. غيّر الصياغة وجرّب.';
+    case 'invalid_json': case 'empty': return 'الرد ما جاش مظبوط. اضغط تاني.';
+    case 'no_model': return 'مفيش موديل متاح لمفتاحك دلوقتي. افتح الإعدادات ودوس "اختبر المفتاح".';
+    default: return 'حصلت مشكلة' + (e && e.status ? ' (' + e.status + ')' : '') + '. جرّب تاني.';
+  }
+}
+
+/* ================= Speech recognition (free, in Chrome) ================= */
+const Rec = {
+  r: null, key: null,
+  supported() { return !!(window.SpeechRecognition || window.webkitSpeechRecognition); },
+  start(key, lang, cb) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { toast('التعرف على الكلام مش متاح في المتصفح ده. افتح الأبلكيشن من Chrome.'); return false; }
+    if (this.r) { if (this.key === key) this.r.stop(); return false; }
+    Speaker.stop();
+    const r = new SR(); r.lang = lang; r.interimResults = true; r.continuous = false; r.maxAlternatives = 1;
+    let fin = '', interim = '', err = '';
+    r.onresult = (e) => { interim = ''; for (let i = e.resultIndex; i < e.results.length; i++) { const res = e.results[i]; if (res.isFinal) fin += res[0].transcript + ' '; else interim += res[0].transcript; } if (cb.onText) cb.onText(clean(fin + interim)); };
+    r.onerror = (e) => { err = e.error || 'error'; };
+    r.onend = () => {
+      this.r = null; this.key = null; renderMicStates();
+      const text = clean(fin + interim);
+      if (err && err !== 'no-speech' && err !== 'aborted') {
+        toast(err === 'not-allowed' || err === 'service-not-allowed' ? 'المايك مقفول. اسمح لـ Chrome يستخدم المايك من إعدادات الموقع.' : err === 'network' ? 'التعرف على الكلام محتاج نت.' : 'المايك ما اشتغلش. جرّب تاني.');
+        if (cb.onCancel) cb.onCancel(); return;
+      }
+      if (cb.onDone) cb.onDone(text);
+    };
+    try { r.start(); } catch { toast('المايك مشغول. جرّب تاني.'); return false; }
+    this.r = r; this.key = key; renderMicStates();
+    return true;
+  },
+  stop() { if (this.r) this.r.stop(); },
+  abort() { if (this.r) this.r.abort(); }
+};
+
+/* ================= Text to speech (free, on the phone) ================= */
+const Speaker = {
+  state: 'idle', voice: null,
+  pick() {
+    if (!('speechSynthesis' in window)) return;
+    const vs = speechSynthesis.getVoices(); const want = S.settings.accent === 'UK' ? 'en-GB' : 'en-US';
+    const norm = (l) => String(l || '').replace('_', '-');
+    this.voice = vs.find((v) => norm(v.lang) === want && /google/i.test(v.name)) || vs.find((v) => norm(v.lang) === want) || vs.find((v) => /^en/i.test(v.lang)) || null;
+  },
+  say(text, o = {}) {
+    if (!('speechSynthesis' in window)) { toast('القراءة بصوت مش متاحة في المتصفح ده.'); return; }
+    text = clean(text); if (!text) return;
+    try { speechSynthesis.cancel(); } catch {}
+    if (!this.voice) this.pick();
+    const u = new SpeechSynthesisUtterance(text.slice(0, 3000));
+    if (this.voice) u.voice = this.voice;
+    u.lang = this.voice ? this.voice.lang : (S.settings.accent === 'UK' ? 'en-GB' : 'en-US');
+    u.rate = o.slow ? 0.7 : S.settings.rate;
+    u.onstart = () => { this.state = 'speaking'; Live.ttsHold = true; updateDock(); };
+    u.onend = u.onerror = () => { this.state = 'idle'; Live.ttsHold = false; updateDock(); if (o.onEnd) o.onEnd(); };
+    speechSynthesis.speak(u);
+  },
+  stop() { try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch {} this.state = 'idle'; Live.ttsHold = false; updateDock(); }
+};
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => Speaker.pick();
+
+/* ================= Microphone capture (16 kHz PCM) ================= */
+const WORKLET = `class P extends AudioWorkletProcessor{constructor(){super();this.r=sampleRate/16000;this.p=0;this.a=0;this.n=0;this.o=[];this.sq=0;this.c=0;}
+process(i){const ch=i[0]&&i[0][0];if(!ch)return true;for(let k=0;k<ch.length;k++){const v=ch[k];this.sq+=v*v;this.c++;this.a+=v;this.n++;this.p++;if(this.p>=this.r){this.o.push(this.a/this.n);this.a=0;this.n=0;this.p-=this.r;}}
+if(this.o.length>=1600){const b=new Int16Array(this.o.length);for(let k=0;k<this.o.length;k++){const s=Math.max(-1,Math.min(1,this.o[k]));b[k]=s<0?s*32768:s*32767;}const lv=Math.sqrt(this.sq/Math.max(1,this.c));this.sq=0;this.c=0;this.port.postMessage({pcm:b.buffer,lv:lv},[b.buffer]);this.o=[];}return true;}}
+registerProcessor('pcm16k',P);`;
+class Capture {
+  async start(onChunk) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('no-media');
+    this.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
+    let ctx; try { ctx = new AudioContext({ sampleRate: 16000 }); } catch { ctx = new AudioContext(); }
+    this.ctx = ctx;
+    if (ctx.state === 'suspended') { try { await ctx.resume(); } catch {} }
+    const url = URL.createObjectURL(new Blob([WORKLET], { type: 'application/javascript' }));
+    try { await ctx.audioWorklet.addModule(url); } finally { URL.revokeObjectURL(url); }
+    this.src = ctx.createMediaStreamSource(this.stream);
+    this.node = new AudioWorkletNode(ctx, 'pcm16k');
+    this.node.port.onmessage = (e) => onChunk(new Int16Array(e.data.pcm), e.data.lv);
+    this.sink = ctx.createGain(); this.sink.gain.value = 0;
+    this.src.connect(this.node); this.node.connect(this.sink); this.sink.connect(ctx.destination);
+  }
+  stop() {
+    try { this.src && this.src.disconnect(); } catch {}
+    try { this.node && this.node.disconnect(); } catch {}
+    try { this.stream && this.stream.getTracks().forEach((t) => t.stop()); } catch {}
+    try { this.ctx && this.ctx.close(); } catch {}
+  }
+}
+function toWav(pcm) {
+  const buf = new ArrayBuffer(44 + pcm.length * 2); const v = new DataView(buf);
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  w(0, 'RIFF'); v.setUint32(4, 36 + pcm.length * 2, true); w(8, 'WAVE'); w(12, 'fmt ');
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, 16000, true);
+  v.setUint32(28, 32000, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, pcm.length * 2, true);
+  for (let i = 0; i < pcm.length; i++) v.setInt16(44 + i * 2, pcm[i], true);
+  return new Uint8Array(buf);
+}
+
+/* ================= Audio playback (24 kHz from Gemini) ================= */
+const Player = {
+  ctx: null, head: 0, srcs: new Set(),
+  ensure() {
+    if (!this.ctx) { const AC = window.AudioContext || window.webkitAudioContext; this.ctx = new AC(); }
+    if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+  },
+  play(b64) {
+    this.ensure();
+    const bytes = b64ToBytes(b64); const n = bytes.length >> 1; if (!n) return;
+    const dv = new DataView(bytes.buffer, bytes.byteOffset, n * 2);
+    const f = new Float32Array(n); for (let i = 0; i < n; i++) f[i] = dv.getInt16(i * 2, true) / 32768;
+    const buf = this.ctx.createBuffer(1, n, 24000); buf.copyToChannel(f, 0);
+    const s = this.ctx.createBufferSource(); s.buffer = buf; s.connect(this.ctx.destination);
+    const t = Math.max(this.ctx.currentTime + 0.05, this.head);
+    s.start(t); this.head = t + buf.duration;
+    this.srcs.add(s);
+    s.onended = () => { this.srcs.delete(s); if (!this.srcs.size) Live.setSpeaking(false); };
+    Live.setSpeaking(true);
+  },
+  stop() { for (const s of this.srcs) { try { s.stop(); } catch {} } this.srcs.clear(); this.head = 0; Live.setSpeaking(false); }
+};
+
+/* ================= Wake lock ================= */
+let wake = null;
+async function wakeLock() { try { if (navigator.wakeLock) wake = await navigator.wakeLock.request('screen'); } catch {} }
+function releaseWake() { try { wake && wake.release(); } catch {} wake = null; }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Live.status === 'live' && !wake) wakeLock(); });
+
+/* ================= Gemini Live session ================= */
+const Live = {
+  ws: null, status: 'idle', handle: null, cap: null, muted: false, speaking: false, ttsHold: false, setupDone: false,
+  fresh: true, noVoice: false, tried: new Set(), model: '', reconnects: 0, goAway: false, goAwayTimer: null,
+  curUser: null, curAi: null, pendingFix: null, lastErr: '',
+  async start() {
+    const c = S.convo; if (!c) return;
+    if (!S.settings.apiKey) { openKeySetup(); return; }
+    Player.ensure();
+    Object.assign(this, { status: 'connecting', handle: null, fresh: true, tried: new Set(), reconnects: 0, muted: false, model: '', lastErr: '', curUser: null, curAi: null, pendingFix: null, noVoice: false });
+    updateDock();
+    if (!this.cap) {
+      try { const cap = new Capture(); await cap.start((pcm, lv) => this.onMic(pcm, lv)); this.cap = cap; }
+      catch (e) { this.cap = null; toast('ما قدرتش أفتح المايك. اسمح لـ Chrome يستخدمه. لحد كده اكتب، وهو هيرد بصوت.'); }
+    }
+    if (this.status !== 'connecting') { if (this.cap) { this.cap.stop(); this.cap = null; } return; }
+    wakeLock();
+    if (!Models.info && S.settings.apiKey) { try { await Models.refresh(); } catch {} }
+    this.connect();
+  },
+  pick() { return Models.liveChain().find((m) => !this.tried.has(m)) || null; },
+  connect() {
+    const m = (this.status === 'reconnecting' && this.model) ? this.model : this.pick();
+    if (!m) { this.fail('no_live_model'); return; }
+    this.model = m; this.setupDone = false;
+    let ws;
+    try { ws = new WebSocket(LIVE_URL + '?key=' + encodeURIComponent(S.settings.apiKey)); }
+    catch { this.fail('live_failed'); return; }
+    this.ws = ws;
+    ws.onopen = () => { if (this.ws === ws) ws.send(JSON.stringify({ setup: this.setupMsg(m) })); };
+    ws.onmessage = async (ev) => {
+      if (this.ws !== ws) return;
+      let txt = ev.data; if (typeof txt !== 'string') { try { txt = await ev.data.text(); } catch { return; } }
+      let msg; try { msg = JSON.parse(txt); } catch { return; }
+      this.onMsg(msg);
+    };
+    ws.onerror = () => {};
+    ws.onclose = (ev) => { if (this.ws !== ws) return; this.ws = null; this.onClose(ev); };
+  },
+  setupMsg(m) {
+    const st = S.settings;
+    const gc = { responseModalities: ['AUDIO'] };
+    if (!this.noVoice && st.gvoice) gc.speechConfig = { voiceConfig: { prebuiltVoiceConfig: { voiceName: st.gvoice } } };
+    const setup = {
+      model: 'models/' + m,
+      generationConfig: gc,
+      systemInstruction: { parts: [{ text: liveSystemPrompt(S.convo) }] },
+      realtimeInputConfig: { automaticActivityDetection: { endOfSpeechSensitivity: 'END_SENSITIVITY_LOW', silenceDurationMs: Math.round(st.silenceMs) } },
+      inputAudioTranscription: {},
+      outputAudioTranscription: {},
+      contextWindowCompression: { slidingWindow: {} },
+      sessionResumption: this.handle ? { handle: this.handle } : {}
+    };
+    return setup;
+  },
+  send(obj) { if (this.ws && this.ws.readyState === 1) { try { this.ws.send(JSON.stringify(obj)); } catch {} } },
+  onMic(pcm, lv) {
+    meter(this.muted ? 0 : lv);
+    if (this.muted || this.ttsHold || !this.setupDone) return;
+    this.send({ realtimeInput: { audio: { data: bytesToB64(new Uint8Array(pcm.buffer)), mimeType: 'audio/pcm;rate=16000' } } });
+  },
+  onMsg(msg) {
+    if (msg.setupComplete) {
+      const wasFresh = this.fresh, hadHandle = !!this.handle;
+      this.setupDone = true; this.status = 'live'; this.reconnects = 0; this.lastErr = '';
+      if (wasFresh) { this.fresh = false; this.send({ clientContent: { turns: [{ role: 'user', parts: [{ text: '[Session start. Greet the learner in one short sentence and open the scenario with one question.]' }] }], turnComplete: true } }); }
+      else if (!hadHandle) this.seedHistory();
+      updateDock(); return;
+    }
+    if (msg.sessionResumptionUpdate) { const u = msg.sessionResumptionUpdate; if (u.resumable && u.newHandle) this.handle = u.newHandle; }
+    if (msg.goAway) {
+      this.goAway = true;
+      const left = parseFloat(String((msg.goAway.timeLeft) || '5').replace('s', '')) || 5;
+      clearTimeout(this.goAwayTimer);
+      this.goAwayTimer = setTimeout(() => this.reconnectNow(), Math.max(0, (left - 2) * 1000));
+      if (!this.curAi && !this.speaking) this.reconnectNow();
+    }
+    const sc = msg.serverContent; if (!sc) return;
+    if (sc.interrupted) { Player.stop(); this.endAi(true); }
+    if (sc.inputTranscription && sc.inputTranscription.text) this.userText(sc.inputTranscription.text);
+    if (sc.outputTranscription && sc.outputTranscription.text) this.aiText(sc.outputTranscription.text);
+    if (sc.modelTurn && sc.modelTurn.parts) for (const p of sc.modelTurn.parts) {
+      if (p.inlineData && p.inlineData.data && /audio|pcm/i.test(p.inlineData.mimeType || 'audio')) { this.aiTurn(); Player.play(p.inlineData.data); }
+    }
+    if (sc.turnComplete) { this.endAi(false); if (this.goAway) this.reconnectNow(); }
+  },
+  userText(t) {
+    const c = S.convo; if (!c) return;
+    let u = (this.curAi && this.pendingFix) ? this.pendingFix : this.curUser;
+    if (!u) { u = { id: uid('t'), role: 'user', text: '', live: true, corrections: null, better: '' }; c.turns.push(u); this.curUser = u; }
+    u.text += t;
+    if (u === this.curUser) S.liveText = clean(u.text);
+    talkSoon();
+  },
+  aiTurn() {
+    const c = S.convo; if (!c) return null;
+    if (!this.curAi) {
+      if (this.curUser) { this.curUser.live = false; this.pendingFix = this.curUser; this.curUser = null; S.liveText = ''; }
+      this.curAi = { id: uid('t'), role: 'ai', text: '', live: true }; c.turns.push(this.curAi);
+      talkSoon(true);
+    }
+    return this.curAi;
+  },
+  aiText(t) { const a = this.aiTurn(); if (a) { a.text += t; talkSoon(); } },
+  endAi(interrupted) {
+    const c = S.convo; if (!c) return;
+    const a = this.curAi; this.curAi = null;
+    if (a) { a.live = false; a.text = clean(a.text); if (interrupted) a.cut = true; if (!a.text) c.turns = c.turns.filter((t) => t !== a); }
+    const u = this.pendingFix; this.pendingFix = null;
+    if (u) finishUserTurn(u, a && a.text ? a.text : prevAiText(c, u));
+    renderTalk(true);
+  },
+  sendText(t) {
+    const c = S.convo; if (!c) return;
+    if (!this.setupDone) { toast('لسه بيوصل. استنى ثانية.'); return; }
+    if (this.curUser) { this.curUser.live = false; this.curUser = null; }
+    const u = { id: uid('t'), role: 'user', text: t, live: false, corrections: null, better: '', typed: true };
+    c.turns.push(u); this.pendingFix = u;
+    this.send({ clientContent: { turns: [{ role: 'user', parts: [{ text: t }] }], turnComplete: true } });
+    renderTalk(true);
+  },
+  seedHistory() {
+    const c = S.convo; if (!c) return;
+    const turns = c.turns.filter((t) => !t.live && t.text).slice(-12).map((t) => ({ role: t.role === 'ai' ? 'model' : 'user', parts: [{ text: t.text }] }));
+    if (turns.length) this.send({ clientContent: { turns, turnComplete: false } });
+  },
+  reconnectNow() {
+    clearTimeout(this.goAwayTimer); this.goAway = false;
+    if (this.status !== 'live') return;
+    const old = this.ws; this.ws = null; this.setupDone = false; this.status = 'reconnecting'; updateDock();
+    try { old && old.close(1000); } catch {}
+    this.connect();
+  },
+  onClose(ev) {
+    const reason = String(ev.reason || ''); const st = this.status;
+    if (st === 'idle' || st === 'error') return;
+    if (!this.setupDone) {
+      if (/API key not valid|API_KEY_INVALID/i.test(reason)) { this.fail('bad_key'); return; }
+      if (st === 'reconnecting' && this.handle) { this.handle = null; this.connect(); return; }
+      if (!this.noVoice && /voice/i.test(reason)) { this.noVoice = true; this.connect(); return; }
+      this.tried.add(this.model);
+      Models.markBad(this.model, /quota|exhaust|limit|429|rate/i.test(reason) ? 10 * 60e3 : 24 * 3600e3);
+      this.lastErr = reason;
+      if (st === 'reconnecting') this.status = 'connecting';
+      if (this.pick()) { this.connect(); return; }
+      this.fail(/quota|exhaust|limit|rate/i.test(reason) ? 'live_quota' : 'live_failed', reason);
+      return;
+    }
+    this.setupDone = false;
+    if (this.curAi) this.endAi(true);
+    if (this.reconnects < 6) {
+      this.reconnects++; this.status = 'reconnecting'; updateDock();
+      setTimeout(() => { if (this.status === 'reconnecting' && !this.ws) this.connect(); }, 400 * this.reconnects);
+      return;
+    }
+    this.fail('live_dropped', reason);
+  },
+  fail(code, reason) {
+    this.status = 'error'; this.setupDone = false; this.lastErr = reason || '';
+    Player.stop();
+    const m = {
+      bad_key: 'مفتاح Gemini مش شغال. افتح الإعدادات واتأكد منه.',
+      live_quota: 'حصة المحادثة الصوتية المجانية خلصت دلوقتي. جرّب بعد شوية، أو كمّل "بالدور".',
+      no_live_model: 'مفيش موديل محادثة صوتية متاح لمفتاحك. كمّل "بالدور".',
+      live_failed: 'ما قدرتش أوصل للمحادثة الصوتية. دوس على الدايرة تحاول تاني، أو كمّل "بالدور".',
+      live_dropped: 'الاتصال اتقطع. دوس على الدايرة عشان تكمّل.'
+    }[code] || 'حصلت مشكلة في الاتصال.';
+    toast(m);
+    updateDock();
+  },
+  setMuted(v) { this.muted = v; if (v) { this.send({ realtimeInput: { audioStreamEnd: true } }); meter(0); } updateDock(); },
+  setSpeaking(v) { if (this.speaking !== v) { this.speaking = v; updateDock(); } },
+  stop() {
+    this.status = 'idle'; clearTimeout(this.goAwayTimer);
+    const ws = this.ws; this.ws = null; this.setupDone = false;
+    try { ws && ws.close(1000); } catch {}
+    if (this.cap) { this.cap.stop(); this.cap = null; }
+    Player.stop(); meter(0); releaseWake(); updateDock();
+  }
+};
+let meterRaf = 0, meterLv = 0;
+function meter(lv) {
+  meterLv = lv;
+  if (meterRaf) return;
+  meterRaf = requestAnimationFrame(() => { meterRaf = 0; if (dockRefs.mic) dockRefs.mic.style.setProperty('--lvl', Math.min(1, meterLv * 9).toFixed(2)); });
+}
+
+/* ================= Pronunciation scoring ================= */
+const CONTR = { "i'm": 'i am', "you're": 'you are', "we're": 'we are', "they're": 'they are', "he's": 'he is', "she's": 'she is', "it's": 'it is', "that's": 'that is', "there's": 'there is', "what's": 'what is', "i've": 'i have', "you've": 'you have', "we've": 'we have', "they've": 'they have', "i'll": 'i will', "you'll": 'you will', "we'll": 'we will', "they'll": 'they will', "it'll": 'it will', "i'd": 'i would', "you'd": 'you would', "don't": 'do not', "doesn't": 'does not', "didn't": 'did not', "can't": 'can not', 'cannot': 'can not', "won't": 'will not', "isn't": 'is not', "aren't": 'are not', "wasn't": 'was not', "weren't": 'were not', "haven't": 'have not', "hasn't": 'has not', "couldn't": 'could not', "shouldn't": 'should not', "wouldn't": 'would not', "let's": 'let us' };
+const NUMW = { '0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four', '5': 'five', '6': 'six', '7': 'seven', '8': 'eight', '9': 'nine', '10': 'ten' };
+function normTok(w) {
+  w = String(w).toLowerCase().replace(/[’‘]/g, "'").replace(/[^a-z0-9']/g, '').replace(/^'+|'+$/g, '');
+  if (!w) return [];
+  if (CONTR[w]) return CONTR[w].split(' ');
+  if (NUMW[w]) return [NUMW[w]];
+  return [w];
+}
+function scoreSpeech(target, heard) {
+  const tTok = String(target).split(/\s+/).filter(Boolean);
+  const tParts = []; tTok.forEach((tok, i) => normTok(tok).forEach((p) => tParts.push({ p, i })));
+  const hParts = String(heard).split(/\s+/).flatMap(normTok);
+  const n = tParts.length, m = hParts.length;
+  const dp = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = tParts[i].p === hParts[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const matched = new Set(); let i = 0, j = 0;
+  while (i < n && j < m) { if (tParts[i].p === hParts[j]) { matched.add(i); i++; j++; } else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++; }
+  const ok = tTok.map(() => true); tParts.forEach((tp, k) => { if (!matched.has(k)) ok[tp.i] = false; });
+  return { heard, marks: tTok.map((t, k) => ({ t, ok: ok[k] })), score: n ? Math.round(100 * matched.size / n) : 0 };
+}
+async function analyzePron(target, wav) {
+  const r = await gen({
+    kind: 'smart',
+    parts: [
+      { inlineData: { mimeType: 'audio/wav', data: bytesToB64(wav) } },
+      { text: 'You are a pronunciation coach for Arabic speakers from Egypt. Listen to the recording. The learner tried to say:\n"' + target + '"\nJudge pronunciation of each word (sounds, stress), not the audio quality. Be honest but encouraging.\nReturn ONLY JSON: {"heard":"what you actually heard","score":0-100,"words":[{"w":"each word of the target sentence, in order","ok":true,"note_ar":"if not ok: what was wrong, very short Egyptian Arabic, e.g. نطقت v زي f"}],"tips_ar":["1-2 most important tips in Egyptian Arabic"]}' }
+    ]
+  });
+  const base = scoreSpeech(target, r && r.heard ? r.heard : '');
+  const words = arr(r && r.words);
+  const tTok = String(target).split(/\s+/).filter(Boolean);
+  let marks = base.marks;
+  if (words.length === tTok.length) marks = tTok.map((t, i) => ({ t, ok: words[i].ok !== false, note: clean(words[i].note_ar) }));
+  const score = Number.isFinite(Number(r && r.score)) ? Math.max(0, Math.min(100, Math.round(Number(r.score)))) : base.score;
+  return { heard: clean(r && r.heard), marks, score, tips: arr(r && r.tips_ar).map(clean).filter(Boolean).slice(0, 2) };
+}
+const Practice = {
+  key: null, cap: null, chunks: [], speech: false, silentMs: 0, t0: 0, cb: null, target: '',
+  async start(key, target, cb) {
+    if (!S.settings.apiKey) { openKeySetup(); return; }
+    if (this.key) { if (this.key === key) this.finish(); else toast('فيه تسجيل شغال. خلّصه الأول.'); return; }
+    if (Live.status !== 'idle') { toast('وقّف المحادثة الأول عشان المايك.'); return; }
+    Speaker.stop(); Rec.abort();
+    Object.assign(this, { key, target, cb, chunks: [], speech: false, silentMs: 0, t0: Date.now() });
+    renderMicStates();
+    try { const cap = new Capture(); await cap.start((pcm, lv) => this.onChunk(pcm, lv)); if (this.key !== key) { cap.stop(); return; } this.cap = cap; }
+    catch { this.key = null; renderMicStates(); toast('ما قدرتش أفتح المايك. اسمح لـ Chrome يستخدمه.'); }
+  },
+  onChunk(pcm, lv) {
+    if (!this.key) return;
+    this.chunks.push(pcm);
+    const dur = pcm.length / 16;
+    if (lv > 0.02) { this.speech = true; this.silentMs = 0; } else if (this.speech) this.silentMs += dur;
+    const total = Date.now() - this.t0;
+    if ((this.speech && this.silentMs > 1300) || total > 15000 || (!this.speech && total > 7000)) this.finish();
+  },
+  async finish() {
+    const key = this.key; if (!key) return;
+    this.key = null; if (this.cap) { this.cap.stop(); this.cap = null; }
+    renderMicStates();
+    const len = this.chunks.reduce((s, c) => s + c.length, 0);
+    const pcm = new Int16Array(len); let o = 0; for (const c of this.chunks) { pcm.set(c, o); o += c.length; }
+    this.chunks = [];
+    const cb = this.cb;
+    if (!this.speech || len < 16000 * 0.4) { cb({ empty: true }); return; }
+    cb({ busy: true });
+    try { cb(await analyzePron(this.target, toWav(pcm))); logActivity(); }
+    catch (e) { cb({ error: errMsg(e) }); }
+  }
+};
+function resultView(res) {
+  if (!res) return null;
+  if (res.busy) return h('div', { class: 'result' }, h('p', { class: 'small muted' }, 'بيسمع نطقك ويقيّمه… ', h('span', { class: 'dots' }, h('i'), h('i'), h('i'))));
+  if (res.error) return h('div', { class: 'result' }, h('p', { class: 'small', style: 'color:var(--bad)', text: res.error }));
+  if (res.empty) return h('div', { class: 'result' }, h('p', { class: 'muted small', text: 'ما سمعتش حاجة. دوس "قولها" واتكلم بصوت واضح.' }));
+  const cls = res.score >= 85 ? 'good' : res.score >= 60 ? 'mid' : 'low';
+  const verdict = res.score >= 85 ? 'ممتاز' : res.score >= 60 ? 'قريب، ركّز على الكلمات الحمرا' : 'اسمعها ببطء وجرّب تاني';
+  const notes = res.marks.filter((m) => !m.ok && m.note);
+  return h('div', { class: 'result' },
+    h('div', { class: 'row' }, h('span', { class: 'score ' + cls, text: res.score + '%' }), h('span', { class: 'small', text: verdict })),
+    h('div', { class: 'marks' }, res.marks.map((m) => [h('span', { class: m.ok ? 'y' : 'n', text: m.t }), ' '])),
+    notes.length ? h('div', { class: 'stack', style: 'gap:2px' }, notes.map((m) => h('p', { class: 'small' }, h('b', { class: 'en', text: m.t }), ': ', m.note))) : null,
+    arr(res.tips).map((t) => h('p', { class: 'small', text: '• ' + t })),
+    res.heard ? h('p', { class: 'small muted' }, 'سمعك بتقول: ', h('span', { class: 'en', text: res.heard })) : null,
+    h('p', { class: 'small muted', text: 'التقييم معمول بالذكاء الاصطناعي، وهو تقريبي.' })
+  );
+}
+
+/* ================= Shell ================= */
+const views = {};
+function buildShell() {
+  $('#gear').append(icon('gear'));
+  $('#gear').addEventListener('click', openSettings);
+  for (const id of ['talk', 'lens', 'lib', 'pron', 'prog']) views[id] = $('#v-' + id);
+  const tabs = [['talk', 'محادثة', 'chat'], ['lens', 'العدسة', 'lens'], ['lib', 'كلماتي', 'book'], ['pron', 'النطق', 'wave'], ['prog', 'تقدمي', 'chart']];
+  const nav = $('#tabs');
+  for (const [id, label, ic] of tabs) nav.append(h('button', { type: 'button', role: 'tab', id: 'tab-' + id, 'aria-controls': 'v-' + id, 'aria-selected': 'false', onclick: () => setTab(id) }, icon(ic), h('span', { text: label })));
+  buildTalk();
+  $('#sheet .scrim').addEventListener('click', closeSheet);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#sheet').classList.contains('on')) { e.preventDefault(); closeSheet(); } });
+}
+function setTab(id) { S.tab = id; renderAll(); }
+let rafPending = false;
+function renderSoon() { if (rafPending) return; rafPending = true; requestAnimationFrame(() => { rafPending = false; renderAll(); }); }
+function withFocus(view, fn) {
+  const a = document.activeElement; const id = a && a.id;
+  let s = null, e = null;
+  if (id && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA')) { try { s = a.selectionStart; e = a.selectionEnd; } catch {} }
+  const top = view ? view.scrollTop : 0;
+  fn();
+  if (view) view.scrollTop = top;
+  if (id) {
+    const n = document.getElementById(id);
+    if (n && n !== document.activeElement && n.closest('.view.on, #sheet.on')) { n.focus({ preventScroll: true }); try { if (s != null) n.setSelectionRange(s, e); } catch {} }
+  }
+}
+function renderAll() {
+  for (const [id, el] of Object.entries(views)) el.classList.toggle('on', id === S.tab);
+  for (const b of document.querySelectorAll('#tabs button')) b.setAttribute('aria-selected', String(b.id === 'tab-' + S.tab));
+  const due = dueWords().length;
+  const libTab = $('#tab-lib'); const old = libTab && libTab.querySelector('.badge');
+  if (old) old.remove();
+  if (libTab && due) libTab.append(h('span', { class: 'badge', text: due > 99 ? '99+' : due }));
+  renderCurrent();
+}
+function renderCurrent() {
+  if (S.tab === 'talk') renderTalk();
+  else if (S.tab === 'lens') withFocus(views.lens, renderLens);
+  else if (S.tab === 'lib') withFocus(views.lib, renderLib);
+  else if (S.tab === 'pron') withFocus(views.pron, renderPron);
+  else if (S.tab === 'prog') withFocus(views.prog, renderProg);
+}
+function micActiveKey() { return Practice.key || Rec.key || null; }
+function renderMicStates() {
+  const k = micActiveKey();
+  for (const b of document.querySelectorAll('[data-mic]')) {
+    const on = k === b.dataset.mic;
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+    const l = b.querySelector('.lbl'); if (l) l.textContent = on ? (b.dataset.onlabel || 'خلصت') : (b.dataset.offlabel || 'قولها');
+  }
+  updateDock();
+}
+
+/* ================= Sheet ================= */
+let sheetOnClose = null;
+function openSheet(title, body, onClose) {
+  const panel = $('#sheet .panel');
+  panel.replaceChildren(h('div', { class: 'grab' }), h('div', { class: 'sheet-head' }, h('h2', { text: title }), h('button', { class: 'iconbtn', type: 'button', 'aria-label': 'اقفل', onclick: closeSheet }, icon('x'))), body);
+  panel.setAttribute('aria-label', title);
+  $('#sheet').classList.add('on'); $('#sheet').setAttribute('aria-hidden', 'false');
+  sheetOnClose = onClose || null; panel.scrollTop = 0;
+}
+function closeSheet() {
+  if (Practice.key && String(Practice.key).startsWith('s:')) Practice.finish();
+  if (Rec.key && String(Rec.key).startsWith('s:')) Rec.abort();
+  $('#sheet').classList.remove('on'); $('#sheet').setAttribute('aria-hidden', 'true');
+  const f = sheetOnClose; sheetOnClose = null; if (f) f();
+}
+
+/* ================= Words library helpers ================= */
+function dueWords() { const now = Date.now(); return Store.all('word').filter((w) => (w.due || 0) <= now); }
+function findWord(text) { const t = clean(text).toLowerCase(); return Store.all('word').find((w) => clean(w.text).toLowerCase() === t); }
+function saveItem(o) {
+  const text = clean(o.text); if (!text) return null;
+  const ex = findWord(text); if (ex) { if (!o.quiet) toast('موجودة في كلماتي من قبل.'); return ex; }
+  const doc = Store.put(uid('w'), { kind: 'word', text, ar: clean(o.ar), example: clean(o.example), ipa: clean(o.ipa), context: clean(o.context).slice(0, 400), source: o.source || '', tag: o.tag || '', box: 0, due: Date.now(), created: Date.now(), reviews: 0 });
+  if (!doc.ar) queueEnrich(doc.id);
+  if (!o.quiet) toast('اتحفظت في كلماتي');
+  return doc;
+}
+let enrichIds = new Set(), enrichTimer = null;
+function queueEnrich(id) { enrichIds.add(id); clearTimeout(enrichTimer); enrichTimer = setTimeout(runEnrich, 1500); }
+async function runEnrich() {
+  const ids = [...enrichIds].filter((id) => S.items[id] && !S.items[id].ar).slice(0, 20); enrichIds = new Set();
+  if (!ids.length || !S.settings.apiKey) return;
+  const list = ids.map((id, i) => { const w = S.items[id]; return (i + 1) + '. "' + w.text + '"' + (w.context ? ' (context: "' + w.context.slice(0, 200) + '")' : ''); }).join('\n');
+  try {
+    const out = await gen({ kind: 'quick', prompt: 'For each English word or phrase below, give its short Arabic meaning and one short natural English example sentence. If a context sentence is given, use the meaning from that context.\nReturn ONLY a JSON array in the same order: [{"ar":"...","example":"..."}]\n\n' + list });
+    arr(out).forEach((r, i) => { const id = ids[i]; if (id && S.items[id] && r) Store.patch(id, { ar: clean(r.ar), example: S.items[id].example || clean(r.example) }); });
+  } catch {}
+}
+function grade(item, g) {
+  const now = Date.now(); let box = item.box || 0; let due;
+  if (g === 'again') { box = 1; due = now + 10 * 60 * 1000; }
+  else if (g === 'hard') { box = Math.max(1, box); due = now + 86400000; }
+  else { box = Math.min(box + 1, INTERVALS.length); due = now + INTERVALS[box - 1] * 86400000; }
+  Store.patch(item.id, { box, due, reviews: (item.reviews || 0) + 1, lastReview: now });
+}
+function savedWordsForPrompt() { return Store.all('word').sort((a, b) => (a.due || 0) - (b.due || 0)).slice(0, 8).map((w) => w.text).join(' | '); }
+let lastActivityDay = '';
+function logActivity() {
+  const k = dayKey(Date.now()); if (k === lastActivityDay) return; lastActivityDay = k;
+  const id = 'act_' + k.replace(/-/g, '_'); if (!S.items[id]) Store.put(id, { kind: 'activity', day: k, ts: Date.now() });
+}
+
+/* ================= Shared UI pieces ================= */
+function miniBtn(ic, label, fn) { return h('button', { class: 'mini', type: 'button', 'aria-label': label, title: label, onclick: fn }, icon(ic)); }
+function speakBtn(text, label) { return miniBtn('speaker', label || 'اسمعها', () => Speaker.say(text)); }
+function starBtn(o) { return h('button', { class: 'mini', type: 'button', 'aria-label': 'احفظ في كلماتي', title: 'احفظ في كلماتي', onclick: (e) => { saveItem(o); e.currentTarget.style.color = 'var(--accent)'; } }, icon('star')); }
+function copyBtn(getText) {
+  return h('button', { class: 'btn sm', type: 'button', onclick: () => {
+    const t = getText();
+    try { navigator.clipboard.writeText(t).then(() => toast('اتنسخ'), () => toast('ما قدرتش أنسخ. علّم على الكلام وانسخه بإيدك.')); }
+    catch { toast('ما قدرتش أنسخ. علّم على الكلام وانسخه بإيدك.'); }
+  } }, icon('copy'), 'انسخ');
+}
+function micBtn(key, offLabel, onLabel, onClick) {
+  const on = micActiveKey() === key;
+  return h('button', { class: 'btn sm' + (on ? ' on' : ''), type: 'button', 'data-mic': key, 'data-offlabel': offLabel, 'data-onlabel': onLabel, 'aria-pressed': String(on), onclick: onClick }, icon('mic'), h('span', { class: 'lbl', text: on ? onLabel : offLabel }));
+}
+function correctionsList(list) {
+  return arr(list).map((c) => h('div', { class: 'fix-item' },
+    h('div', { class: 'fix-line' }, h('del', { text: c.original }), h('span', { class: 'arrow', text: '→' }), h('ins', { text: c.corrected }), ' ', speakBtn(c.corrected, 'اسمع الصح')),
+    h('div', { class: 'row small' }, c.type ? h('span', { class: 'tag', text: TYPE_AR[c.type] || c.type }) : null, h('span', { class: 'why', text: c.explain_ar || '' }))
+  ));
+}
+function practiceBlock(key, text) {
+  const setRes = (res) => { S.practice[key] = res; const box = document.getElementById('res-' + key); if (box) box.replaceChildren(resultView(res) || ''); };
+  return h('div', { class: 'practice' },
+    h('div', { class: 'row' },
+      h('button', { class: 'btn sm', type: 'button', onclick: () => Speaker.say(text) }, icon('speaker'), 'اسمع'),
+      h('button', { class: 'btn sm', type: 'button', onclick: () => Speaker.say(text, { slow: true }) }, icon('turtle'), 'ببطء'),
+      micBtn(key, 'قولها', 'خلصت', () => Practice.start(key, text, setRes))),
+    h('div', { id: 'res-' + key }, resultView(S.practice[key]))
+  );
+}
+function openVoiceHelp() {
+  openSheet('الكلام بالصوت', h('div', { class: 'stack' },
+    h('p', { text: 'المايك محتاج متصفح Chrome، ومحتاج تسمحله يستخدم المايك.' }),
+    h('div', { class: 'note' }, h('p', { text: 'لو ظهرلك سؤال "Allow microphone" اختار Allow. ولو رفضته قبل كده: دوس على علامة القفل جنب اللينك فوق، وبعدين Permissions، وافتح Microphone.' })),
+    h('p', { class: 'muted', text: 'لحد كده تقدر تكتب في خانة الكتابة.' })
+  ));
+}
+
+/* ================= KEY SETUP ================= */
+function keySetupCard(compact) {
+  let val = '';
+  const status = h('p', { class: 'small', id: 'keyStatus' });
+  const input = h('input', { type: 'password', id: 'keyInput', class: 'en', placeholder: 'AIza…', autocomplete: 'off', 'aria-label': 'مفتاح Gemini', oninput: (e) => { val = e.target.value.trim(); } });
+  const btn = h('button', { class: 'btn primary', type: 'button' }, icon('key'), 'احفظ واختبر');
+  btn.addEventListener('click', async () => {
+    if (!val) { toast('الصق المفتاح الأول.'); return; }
+    btn.disabled = true; status.className = 'small muted'; status.textContent = 'بيختبر المفتاح…';
+    const old = S.settings.apiKey; S.settings.apiKey = val;
+    try {
+      const info = await Models.refresh();
+      saveSettings();
+      status.className = 'small'; status.style.color = 'var(--good)';
+      status.textContent = 'المفتاح شغال. ' + (info.live.length ? 'المحادثة الصوتية متاحة.' : 'المحادثة الصوتية مش ظاهرة لمفتاحك، هتشتغل "بالدور".');
+      if (!info.live.length) { S.settings.mode = 'turn'; saveSettings(); }
+      toast('تمام، المفتاح اتحفظ');
+      setTimeout(() => { closeSheet(); renderAll(); }, 900);
+    } catch (e) {
+      S.settings.apiKey = old;
+      status.className = 'small'; status.style.color = 'var(--bad)'; status.textContent = errMsg(e.code === 'http' ? { code: 'bad_key' } : e);
+    } finally { btn.disabled = false; }
+  });
+  return h('div', { class: 'card setup stack' },
+    h('h3', { text: compact ? 'مفتاح Gemini' : 'خطوة واحدة قبل ما تبدأ: مفتاح Gemini المجاني' }),
+    compact ? null : h('p', { class: 'small muted', text: 'الأبلكيشن بيشتغل على الحصة المجانية بتاعة Gemini من جوجل. محتاج مفتاح مرة واحدة بس.' }),
+    h('ol', null,
+      h('li', null, 'افتح ', h('a', { href: 'https://aistudio.google.com/apikey', target: '_blank', rel: 'noopener', text: 'aistudio.google.com/apikey' }), ' وادخل بحساب جوجل بتاعك.'),
+      h('li', { text: 'دوس Create API key، ولو سألك على مشروع اختار أي واحد أو اعمل جديد.' }),
+      h('li', { text: 'انسخ المفتاح (بيبدأ بـ AIza) والصقه هنا.' })),
+    h('div', { class: 'row', style: 'flex-wrap:nowrap' }, input, btn),
+    status,
+    h('p', { class: 'small muted', text: 'المفتاح بيتحفظ على الموبايل ده بس. في الخطة المجانية جوجل بتستخدم المحادثات عشان تحسّن منتجاتها، فما تقولش فيها بيانات شغل حساسة.' })
+  );
+}
+function openKeySetup() { openSheet('مفتاح Gemini', keySetupCard(true)); }
+
+/* ================= TALK ================= */
+let talkTop, msgsEl;
+const dockRefs = {};
+function buildTalk() {
+  talkTop = h('div', { class: 'talk-top' });
+  msgsEl = h('div', { class: 'msgs', id: 'msgs' });
+  msgsEl.addEventListener('click', (e) => {
+    const w = e.target.closest('.word');
+    if (w) openWordSheet(w.dataset.w, w.closest('.bubble') ? w.closest('.bubble').dataset.text : '');
+  });
+  dockRefs.live = h('div', { id: 'live', class: 'status' });
+  dockRefs.mic = h('button', { class: 'mic', type: 'button', id: 'micBtn', 'aria-label': 'اتكلم', onclick: onTalkMic }, icon('mic'));
+  dockRefs.micLabel = h('div', { class: 'mic-label' });
+  dockRefs.micHint = h('div', { class: 'small muted' });
+  dockRefs.stopSpeak = h('button', { class: 'btn sm', type: 'button', onclick: () => Speaker.stop() }, icon('stop'), 'وقّف الصوت');
+  dockRefs.helpBtn = h('button', { class: 'btn sm', type: 'button', onclick: openHelpSheet }, icon('help'), 'مش عارف أقولها');
+  dockRefs.toTurn = h('button', { class: 'btn sm', type: 'button', onclick: () => { if (S.convo) { Live.stop(); S.convo.mode = 'turn'; toast('كمّل بالدور: دوس على المايك واتكلم.'); updateDock(); } } }, 'كمّل بالدور');
+  dockRefs.input = h('input', { type: 'text', id: 'talkInput', class: 'en', placeholder: 'Type in English…', autocomplete: 'off', 'aria-label': 'اكتب رسالتك بالإنجليزي', oninput: (e) => { S.draft = e.target.value; } });
+  dockRefs.form = h('form', { class: 'dock-form', onsubmit: (e) => { e.preventDefault(); const t = clean(S.draft); if (!t) return; S.draft = ''; dockRefs.input.value = ''; submitText(t); } },
+    dockRefs.input, h('button', { class: 'btn primary', type: 'submit', 'aria-label': 'ابعت' }, icon('send')));
+  const dock = h('div', { class: 'dock' },
+    dockRefs.live,
+    h('div', { class: 'dock-main' }, dockRefs.mic, h('div', { class: 'mic-side' }, dockRefs.micLabel, dockRefs.micHint, h('div', { class: 'row' }, dockRefs.helpBtn, dockRefs.stopSpeak, dockRefs.toTurn))),
+    dockRefs.form);
+  views.talk.append(talkTop, msgsEl, dock);
+  setInterval(() => { const t = document.getElementById('convoTime'); if (t && S.convo) t.textContent = elapsed(S.convo.startedAt); }, 15000);
+}
+function elapsed(ts) { const m = Math.floor((Date.now() - ts) / 60000); return m < 1 ? 'لسه بادئين' : m + ' دقيقة'; }
+function updateDock() {
+  if (!dockRefs.mic) return;
+  const c = S.convo && !S.convo.ended ? S.convo : null;
+  const mode = c ? c.mode : S.settings.mode;
+  const mic = dockRefs.mic;
+  let cls = 'mic', ic = 'mic', label = '', hint = '', liveTxt = '', liveIsText = false;
+  if (!c) { label = 'ابدأ المحادثة'; hint = S.settings.apiKey ? 'اختار موقف من فوق وابدأ' : 'حط مفتاح Gemini الأول'; }
+  else if (mode === 'live') {
+    const st = Live.status;
+    if (st === 'connecting' || st === 'reconnecting') { cls += ' wait'; ic = 'dots'; label = st === 'connecting' ? 'بيوصل…' : 'بيرجع يوصل…'; }
+    else if (st === 'live') {
+      if (Live.muted) { cls += ' muted'; ic = 'micoff'; label = 'المايك مقفول'; hint = 'دوس على الدايرة تفتحه'; }
+      else if (Live.speaking) { cls += ' speaking'; label = 'بيتكلم… قاطعه لو حابب'; hint = 'دوس على الدايرة تقفل المايك'; }
+      else { cls += ' listening'; label = 'بيسمعك… اتكلم براحتك'; hint = Live.cap ? 'دوس على الدايرة تقفل المايك. السماعة بتنضّف الصوت' : 'المايك مش شغال، اكتب تحت'; }
+      if (S.liveText && Live.curUser) { liveTxt = S.liveText; liveIsText = true; }
+    } else if (st === 'error') { cls += ' off'; ic = 'refresh'; label = 'الاتصال وقف'; hint = 'دوس على الدايرة تحاول تاني'; }
+    else { label = 'دوس عشان توصل'; }
+  } else {
+    const listening = Rec.key === 'talk';
+    if (listening) { cls += ' rec'; ic = 'stop'; label = 'بسمعك…'; hint = 'لما تسكت كلامك بيتبعت، أو دوس تاني'; liveTxt = S.liveText || 'اتكلم بالإنجليزي…'; liveIsText = !!S.liveText; }
+    else if (c.busy) { cls += ' wait'; ic = 'dots'; label = 'بيفكر في الرد…'; liveTxt = 'بيكتب الرد…'; }
+    else if (!Rec.supported()) { cls += ' off'; label = 'اكتب ردك تحت'; hint = 'التعرف على الكلام محتاج Chrome'; }
+    else { label = 'دوس واتكلم'; hint = 'محادثة بالدور: جملة منك وجملة منه'; }
+  }
+  mic.className = cls;
+  mic.replaceChildren(icon(ic));
+  mic.disabled = !!(c && mode === 'turn' && c.busy && Rec.key !== 'talk');
+  dockRefs.micLabel.textContent = label; dockRefs.micHint.textContent = hint;
+  dockRefs.live.className = liveIsText ? '' : 'status';
+  dockRefs.live.textContent = liveTxt; dockRefs.live.hidden = !liveTxt;
+  dockRefs.stopSpeak.hidden = Speaker.state === 'idle';
+  dockRefs.helpBtn.hidden = !c;
+  dockRefs.toTurn.hidden = !(c && mode === 'live' && Live.status === 'error');
+  dockRefs.form.hidden = !c;
+}
+function onTalkMic() {
+  const c = S.convo && !S.convo.ended ? S.convo : null;
+  if (!c) { startConvo(); return; }
+  if (c.mode === 'live') {
+    const st = Live.status;
+    if (st === 'live') Live.setMuted(!Live.muted);
+    else if (st === 'error' || st === 'idle') Live.start();
+    return;
+  }
+  if (Rec.key === 'talk') { Rec.stop(); return; }
+  if (c.busy) return;
+  if (!Rec.supported()) { openVoiceHelp(); return; }
+  S.liveText = '';
+  Rec.start('talk', S.settings.accent === 'UK' ? 'en-GB' : 'en-US', {
+    onText: (t) => { S.liveText = t; updateDock(); },
+    onDone: (t) => { S.liveText = ''; updateDock(); if (t) sendUser(t); },
+    onCancel: () => { S.liveText = ''; updateDock(); }
+  });
+}
+function submitText(t) {
+  const c = S.convo && !S.convo.ended ? S.convo : null;
+  if (!c) { toast('ابدأ محادثة الأول.'); return; }
+  if (c.mode === 'live') { if (Live.status === 'live') Live.sendText(t); else toast('المحادثة الصوتية مش متصلة. دوس على الدايرة.'); }
+  else sendUser(t);
+}
+function scenarioText(c) { return c.scenario === 'custom' ? 'Role-play this situation, described by the learner (possibly in Arabic): ' + c.custom : (SCEN[c.scenario] || SCEN.free).en; }
+function learnerContext(c) {
+  const prof = S.items.profile && S.items.profile.text ? S.items.profile.text : '';
+  const words = savedWordsForPrompt();
+  return [
+    'Learner level (CEFR): ' + S.settings.level + '. Use ' + (S.settings.accent === 'UK' ? 'British' : 'American') + ' English.',
+    'Scenario: ' + scenarioText(c),
+    prof ? 'What you know about the learner from earlier sessions: ' + prof : '',
+    words ? 'Words and phrases the learner saved to practise. When one fits naturally, use it: ' + words : ''
+  ].filter(Boolean).join('\n');
+}
+function liveSystemPrompt(c) {
+  return [
+    'You are Talaqa, a warm, patient English conversation partner and speaking coach for an adult Arabic speaker from Egypt.',
+    learnerContext(c),
+    '',
+    'Rules:',
+    '- Speak only English, clearly and at a natural pace that suits the learner\'s level.',
+    '- Keep each turn short: 1 to 3 sentences. Usually end with a question so the learner keeps talking. The learner should talk more than you.',
+    '- Stay in your role if the scenario has one, and react to what the learner actually said.',
+    '- Do not give grammar lessons during the conversation: the app shows written corrections on screen. When the learner makes a mistake, naturally repeat the correct form in your reply without pointing it out.',
+    '- If the learner speaks Arabic or asks how to say something, give the English phrase briefly, ask them to say it, then continue.',
+    '- If the learner asks you to slow down, repeat or explain a word, do it.',
+    '- If the learner says "save this", just say "Saved!" and continue.'
+  ].join('\n');
+}
+function turnRules(c) {
+  return [
+    'You are Talaqa, a warm, patient English conversation partner and speaking coach for an adult Arabic speaker from Egypt.',
+    learnerContext(c),
+    c.summary ? 'Summary of the earlier part of this conversation: ' + c.summary : '',
+    '',
+    'How to reply:',
+    '- This is a spoken conversation. Reply in 1-3 short sentences (about 45 words at most), natural spoken English a little above the learner\'s level.',
+    '- Usually end with a question that gets the learner talking. Stay in role and react to what they said.',
+    '- "reply" is always English. If the learner uses Arabic or cannot find a word, give the English briefly inside your reply, then continue.',
+    '',
+    'How to correct:',
+    '- The learner\'s lines come from speech-to-text: ignore punctuation, capitalization and fillers.',
+    '- A word that looks like a mis-hearing of a similar-sounding word is a possible pronunciation problem: type "pronunciation".',
+    '- Correct only real errors in the learner\'s LAST line. Never invent errors. If it is fine, "corrections" is [].',
+    '- "better" is how a native speaker would naturally say the learner\'s last line, or "" if it was already natural. "explain_ar" is simple Egyptian Arabic, 15 words at most.',
+    '',
+    'Return ONLY this JSON object: {"reply":"...","corrections":[{"original":"...","corrected":"...","type":"grammar|tense|preposition|article|word choice|word order|pronunciation|other","explain_ar":"..."}],"better":"..."}'
+  ].filter((x) => x !== '').join('\n').replace(/\n\n\n+/g, '\n\n');
+}
+function startConvo() {
+  if (!S.settings.apiKey) { openKeySetup(); return; }
+  if (S.scen === 'custom' && !clean(S.customScen)) { toast('اكتب الموقف اللي عايز تتمرّن عليه الأول.'); const el = $('#customScen'); if (el) el.focus(); return; }
+  const mode = S.settings.mode === 'turn' ? 'turn' : 'live';
+  S.convo = { id: uid('s'), mode, scenario: S.scen, custom: clean(S.customScen), turns: [], ctxStart: 0, summary: '', startedAt: Date.now(), userWords: 0, busy: false, ended: false };
+  logActivity();
+  renderTalk();
+  if (mode === 'live') Live.start(); else aiTurn(null);
+}
+function prevAiText(c, u) { const i = c.turns.indexOf(u); for (let k = i - 1; k >= 0; k--) if (c.turns[k].role === 'ai' && c.turns[k].text) return c.turns[k].text; return ''; }
+function isSaveCommand(text) { return /^(please )?save (this|that|it)( sentence| phrase| one)?( please)?$/.test(text.toLowerCase().replace(/[.!?,]/g, '').trim()); }
+function finishUserTurn(u, aiText) {
+  const c = S.convo; if (!c) return;
+  u.live = false; u.text = clean(u.text);
+  if (!u.text) { c.turns = c.turns.filter((t) => t !== u); return; }
+  if (u.counted) return;
+  u.counted = true; c.userWords += u.text.split(/\s+/).length;
+  if (isSaveCommand(u.text)) { const prev = prevAiText(c, u); if (prev) saveItem({ text: prev, source: 'محادثة' }); u.corrections = []; u.command = true; return; }
+  queueFix(u, prevAiText(c, u));
+}
+let fixChain = Promise.resolve();
+function queueFix(u, prevAi) {
+  u.fixing = true;
+  fixChain = fixChain.then(async () => {
+    try {
+      const r = await gen({ kind: 'quick', prompt: 'You are an English teacher for Arabic speakers from Egypt. Check one spoken line from a learner (level ' + S.settings.level + '). It came from speech-to-text: ignore punctuation, capitalization and fillers. A word that looks like a mis-hearing of a similar-sounding word is a possible pronunciation problem (type "pronunciation").\nPartner said before: "' + (prevAi || '').slice(0, 600) + '"\nLearner said: "' + u.text.slice(0, 1200) + '"\nCorrect only real errors (grammar, tense, prepositions, articles, word choice, word order, unnatural phrasing). Never invent errors.\nReturn ONLY JSON: {"corrections":[{"original":"...","corrected":"...","type":"grammar|tense|preposition|article|word choice|word order|pronunciation|other","explain_ar":"simple Egyptian Arabic, 15 words at most"}],"better":"how a native speaker would naturally say it, or empty if already natural"}' });
+      u.corrections = arr(r && r.corrections).filter((x) => x && x.original && x.corrected).slice(0, 6);
+      u.better = clean(r && r.better); if (u.better.toLowerCase() === u.text.toLowerCase()) u.better = '';
+    } catch (e) { u.fixErr = errMsg(e); }
+    finally { u.fixing = false; if (S.tab === 'talk') renderTalk(); }
+  });
+}
+async function sendUser(text) {
+  text = clean(text);
+  const c = S.convo && !S.convo.ended ? S.convo : null;
+  if (!text || !c) return;
+  if (c.busy) { toast('استنى لما يخلص رده.'); return; }
+  if (isSaveCommand(text)) { const last = [...c.turns].reverse().find((t) => t.role === 'ai' && t.text); if (last) saveItem({ text: last.text, source: 'محادثة' }); return; }
+  const turn = { id: uid('t'), role: 'user', text, corrections: null, better: '', failed: false, counted: true };
+  c.turns.push(turn); c.userWords += text.split(/\s+/).length;
+  renderTalk(true);
+  await aiTurn(turn);
+}
+async function aiTurn(userTurn) {
+  const c = S.convo; if (!c) return;
+  c.busy = true; if (userTurn) userTurn.failed = false;
+  const contents = [];
+  for (const t of c.turns.slice(c.ctxStart)) {
+    if (!t.text || t.live) continue;
+    const role = t.role === 'ai' ? 'model' : 'user';
+    const last = contents[contents.length - 1];
+    if (last && last.role === role) last.parts[0].text += '\n' + t.text; else contents.push({ role, parts: [{ text: t.text }] });
+  }
+  if (!contents.length || contents[0].role !== 'user') contents.unshift({ role: 'user', parts: [{ text: '[Begin the conversation now: greet the learner briefly and open the scenario with one question. "corrections" must be [] and "better" must be "".]' }] });
+  if (contents[contents.length - 1].role !== 'user') contents.push({ role: 'user', parts: [{ text: '(continue)' }] });
+  const pending = { id: uid('t'), role: 'ai', text: '', pending: true };
+  c.turns.push(pending); renderTalk(true);
+  try {
+    const res = await gen({ kind: 'quick', system: turnRules(c), contents });
+    if (S.convo !== c) return;
+    const reply = clean(res && res.reply); if (!reply) throw { code: 'empty' };
+    pending.text = reply; pending.pending = false;
+    if (userTurn) {
+      userTurn.corrections = arr(res.corrections).filter((x) => x && x.original && x.corrected).slice(0, 6);
+      userTurn.better = clean(res.better); if (userTurn.better.toLowerCase() === userTurn.text.toLowerCase()) userTurn.better = '';
+    }
+    c.busy = false; renderTalk(true);
+    if (S.settings.autoSpeak) Speaker.say(reply);
+    maybeCompress(c);
+  } catch (e) {
+    c.turns = c.turns.filter((t) => t !== pending); c.busy = false;
+    if (userTurn) userTurn.failed = true; else c.openFailed = true;
+    toast(errMsg(e)); renderTalk(true);
+  }
+}
+async function maybeCompress(c) {
+  const live = c.turns.slice(c.ctxStart).filter((t) => !t.pending && t.text);
+  if (live.length < 34 || c.compressing) return;
+  c.compressing = true;
+  const chunk = live.slice(0, 16);
+  try {
+    const s = await gen({ kind: 'quick', json: false, prompt: 'Summarize this part of an English speaking-practice conversation in 3-5 short English sentences. Keep the facts the learner shared, topics covered, and role-play details needed to continue.\n\n' + chunk.map((t) => (t.role === 'ai' ? 'Partner: ' : 'Learner: ') + t.text).join('\n') });
+    c.summary = (c.summary ? c.summary + ' ' : '') + clean(s);
+    c.ctxStart = c.turns.indexOf(chunk[chunk.length - 1]) + 1;
+  } catch {} finally { c.compressing = false; }
+}
+let talkRaf = 0, talkScroll = false;
+function talkSoon(scroll) {
+  if (scroll) talkScroll = true;
+  if (talkRaf) return;
+  talkRaf = requestAnimationFrame(() => {
+    talkRaf = 0; const sc = talkScroll; talkScroll = false;
+    if (S.tab !== 'talk') return;
+    const c = S.convo;
+    if (!c) return;
+    const near = msgsEl.scrollHeight - msgsEl.scrollTop - msgsEl.clientHeight < 160;
+    let structural = false;
+    for (const t of c.turns) {
+      const el = msgsEl.querySelector('[data-tid="' + t.id + '"] .bubble');
+      if (!el) { structural = true; break; }
+      if (t.live) el.textContent = t.text || '…';
+    }
+    if (structural) renderTalk(sc || near);
+    else { if (sc || near) msgsEl.scrollTop = msgsEl.scrollHeight; updateDock(); }
+  });
+}
+function renderTalk(scrollEnd) {
+  const c = S.convo;
+  const nearEnd = msgsEl.scrollHeight - msgsEl.scrollTop - msgsEl.clientHeight < 160;
+  if (c && !c.ended) {
+    const sc = SCEN[c.scenario] || SCEN.free;
+    talkTop.hidden = false;
+    talkTop.replaceChildren(
+      h('span', { class: 'scen', text: c.scenario === 'custom' ? 'موقف من عندك' : sc.ar }),
+      h('span', { class: 'time', id: 'convoTime', text: elapsed(c.startedAt) }),
+      h('span', { class: 'tag', text: c.mode === 'live' ? 'لايف' : 'بالدور' }),
+      h('span', { class: 'spacer' }),
+      h('button', { class: 'btn sm primary', type: 'button', onclick: endConvo }, 'إنهاء وتقرير'));
+  } else { talkTop.hidden = true; talkTop.replaceChildren(); }
+  if (!c || c.ended) {
+    const top = msgsEl.scrollTop;
+    withFocus(null, () => msgsEl.replaceChildren(welcomeView()));
+    msgsEl.scrollTop = top;
+  } else {
+    const nodes = c.turns.map((t) => t.role === 'ai' ? aiTurnView(t) : userTurnView(t));
+    if (c.openFailed && !c.turns.length) nodes.push(h('div', { class: 'card stack' }, h('p', { text: 'ما قدرتش أبدأ المحادثة.' }), h('button', { class: 'btn primary', type: 'button', onclick: () => { c.openFailed = false; aiTurn(null); } }, icon('refresh'), 'جرّب تاني')));
+    if (c.mode === 'live' && !c.turns.length) nodes.push(h('p', { class: 'muted small', style: 'text-align:center', text: Live.status === 'live' ? 'اتكلم في أي وقت…' : 'بيجهز المحادثة…' }));
+    msgsEl.replaceChildren(...nodes);
+    if (scrollEnd || nearEnd) msgsEl.scrollTop = msgsEl.scrollHeight;
+  }
+  updateDock();
+}
+function tokenized(text) {
+  const out = [];
+  for (const part of String(text).split(/(\s+)/)) {
+    if (!part) continue;
+    if (/^\s+$/.test(part)) { out.push(part); continue; }
+    const m = part.match(/^([^A-Za-z0-9']*)([A-Za-z0-9][A-Za-z0-9'’-]*)([^A-Za-z0-9]*)$/);
+    if (m) { if (m[1]) out.push(m[1]); out.push(h('span', { class: 'word', 'data-w': m[2].replace(/’/g, "'") }, m[2])); if (m[3]) out.push(m[3]); }
+    else out.push(part);
+  }
+  return out;
+}
+function aiTurnView(t) {
+  if (t.pending) return h('div', { class: 'turn ai', 'data-tid': t.id }, h('div', { class: 'bubble' }, h('span', { class: 'dots', 'aria-label': 'بيكتب' }, h('i'), h('i'), h('i'))));
+  if (t.live) return h('div', { class: 'turn ai live', 'data-tid': t.id }, h('div', { class: 'bubble' }, t.text || '…'));
+  return h('div', { class: 'turn ai', 'data-tid': t.id },
+    h('div', { class: 'bubble', 'data-text': t.text }, tokenized(t.text), t.cut ? h('span', { class: 'muted', text: ' …' }) : null),
+    h('div', { class: 'tools' }, speakBtn(t.text, 'اسمعها تاني'), starBtn({ text: t.text, source: 'محادثة' })));
+}
+function userTurnView(t) {
+  const kids = [h('div', { class: 'bubble' }, t.text || '…')];
+  if (t.live) return h('div', { class: 'turn user live', 'data-tid': t.id }, kids);
+  const fixes = arr(t.corrections);
+  if (t.failed) kids.push(h('button', { class: 'btn sm', type: 'button', onclick: () => aiTurn(t) }, icon('refresh'), 'الرد ما وصلش. ابعت تاني'));
+  else if (t.command) kids.push(h('span', { class: 'ok-chip' }, icon('star'), 'اتحفظت في كلماتي'));
+  else if (t.fixing) kids.push(h('span', { class: 'wait-chip', text: 'بيراجع جملتك…' }));
+  else if (t.fixErr) kids.push(h('span', { class: 'wait-chip', text: 'ما قدرتش أراجع الجملة دي' }));
+  else if (t.corrections && !fixes.length && !t.better) kids.push(h('span', { class: 'ok-chip' }, icon('check'), 'جملتك مظبوطة'));
+  else if (fixes.length || t.better) {
+    const box = h('div', { class: 'fix' },
+      correctionsList(fixes),
+      t.better ? h('div', { class: 'better stack', style: 'gap:4px' },
+        h('span', { class: 'small muted', text: 'الـ native هيقولها كده:' }),
+        h('div', { class: 'row' }, h('span', { class: 'fix-line', text: t.better, style: 'flex:1' }), speakBtn(t.better), starBtn({ text: t.better, source: 'تصحيح' }))) : null);
+    if (S.settings.correct === 'end' && !t.open) {
+      const n = fixes.length;
+      kids.push(h('button', { class: 'fold', type: 'button', onclick: () => { t.open = true; renderTalk(); } }, n ? (n === 1 ? 'عندك ملاحظة' : 'عندك ' + n + ' ملاحظات') : 'فيه طريقة أحسن'));
+    } else kids.push(box);
+  }
+  return h('div', { class: 'turn user', 'data-tid': t.id }, kids);
+}
+function welcomeView() {
+  const last = Store.all('session').sort((a, b) => (b.ts || 0) - (a.ts || 0))[0];
+  const st = S.settings;
+  const lvl = LEVELS.find((l) => l[0] === st.level) || LEVELS[1];
+  return h('div', { class: 'welcome' },
+    h('div', { class: 'hero' },
+      h('h2', { text: 'اتكلم إنجليزي، وأنا أصحّحلك وانت بتتكلم' }),
+      h('p', { text: 'اختار موقف وابدأ. المحادثة صوت قصاد صوت زي التليفون، تقدر تقاطعه في أي وقت، والتصحيح بيظهر مكتوب تحت كل جملة بتقولها.' })),
+    st.apiKey ? null : keySetupCard(false),
+    h('div', { class: 'row' },
+      h('button', { class: 'chip', type: 'button', onclick: openSettings }, 'المستوى: ' + lvl[0] + ' ' + lvl[1]),
+      h('button', { class: 'chip', type: 'button', onclick: openSettings }, st.mode === 'turn' ? 'المحادثة: بالدور' : 'المحادثة: لايف'),
+      h('button', { class: 'chip', type: 'button', onclick: openSettings }, st.correct === 'instant' ? 'التصحيح: فوري' : 'التصحيح: مطوي')),
+    h('h3', { text: 'هتتمرّن على إيه؟' }),
+    h('div', { class: 'scen-grid', role: 'group', 'aria-label': 'المواقف' },
+      SCENARIOS.map((s) => h('button', { class: 'scen-card', type: 'button', 'aria-pressed': String(S.scen === s.id), onclick: () => { S.scen = s.id; renderTalk(); if (s.id === 'custom') setTimeout(() => { const el = $('#customScen'); if (el) el.focus(); }, 0); } }, h('b', { text: s.ar }), h('span', { text: s.desc })))),
+    S.scen === 'custom' ? h('div', null, h('label', { class: 'f', for: 'customScen', text: 'الموقف' }),
+      h('textarea', { id: 'customScen', placeholder: 'مثلاً: بكلم مدير المصنع عن تأخير شحنة خامات، وهو متضايق', oninput: (e) => { S.customScen = e.target.value; } }, S.customScen)) : null,
+    h('button', { class: 'btn primary wide', type: 'button', onclick: startConvo, style: 'min-height:50px;font-size:1rem' }, icon('chat'), 'ابدأ المحادثة'),
+    last ? h('div', { class: 'card stack', style: 'gap:6px' },
+      h('div', { class: 'row small muted' }, h('span', { text: 'آخر محادثة · ' + fmtDate(last.ts) }), h('span', { text: '· ' + (SCEN[last.scenario] ? SCEN[last.scenario].ar : 'موقف من عندك') })),
+      last.summary ? h('p', { text: last.summary }) : null,
+      last.advice ? h('p', { class: 'small' }, h('b', { text: 'المرة دي: ' }), last.advice) : null) : null);
+}
+function openWordSheet(word, sentence) {
+  if (!word) return;
+  openSheet('الكلمة', h('div', { class: 'stack' },
+    h('div', { class: 'en', style: 'font-size:2rem;font-weight:700;text-align:center' }, word),
+    h('div', { class: 'row', style: 'justify-content:center' },
+      h('button', { class: 'btn', type: 'button', onclick: () => Speaker.say(word) }, icon('speaker'), 'اسمعها'),
+      h('button', { class: 'btn', type: 'button', onclick: () => Speaker.say(word, { slow: true }) }, icon('turtle'), 'ببطء')),
+    h('button', { class: 'btn primary wide', type: 'button', onclick: () => { saveItem({ text: word, context: sentence, source: 'محادثة' }); closeSheet(); } }, icon('star'), 'احفظ الكلمة في كلماتي'),
+    sentence ? h('button', { class: 'btn wide', type: 'button', onclick: () => { saveItem({ text: sentence, source: 'محادثة' }); closeSheet(); } }, 'احفظ الجملة كلها') : null,
+    sentence ? h('p', { class: 'en muted small', text: sentence }) : null));
+}
+function openHelpSheet() {
+  let ar = '';
+  const res = h('div', { class: 'stack' });
+  const ta = h('textarea', { id: 'helpAr', placeholder: 'اكتب اللي عايز تقوله بالعربي…', oninput: (e) => { ar = e.target.value; } });
+  const go = h('button', { class: 'btn primary', type: 'button' }, 'قولهالي بالإنجليزي');
+  const micAr = micBtn('s:helpAr', 'قولها بالعربي', 'خلصت', () => {
+    if (Live.status === 'live' && !Live.muted) Live.setMuted(true);
+    const base = ar;
+    Rec.start('s:helpAr', 'ar-EG', { onText: (t) => { ar = (base ? base + ' ' : '') + t; ta.value = ar; }, onDone: (t) => { if (t) { ar = (base ? base + ' ' : '') + t; ta.value = ar; } } });
+  });
+  go.addEventListener('click', async () => {
+    if (!clean(ar)) { toast('اكتب الجملة بالعربي الأول.'); return; }
+    go.disabled = true; res.replaceChildren(h('p', { class: 'muted', text: 'بيفكر…' }));
+    const c = S.convo;
+    try {
+      const r = await gen({ kind: 'quick', prompt: 'An adult Egyptian Arabic speaker (English level ' + S.settings.level + ') wants to say this in English' + (c ? ' during this conversation: ' + scenarioText(c) : '') + ':\n"' + clean(ar) + '"\nReturn ONLY JSON: {"en":"natural spoken English at about their level","alt":["one or two other natural ways"],"note_ar":"one short tip in Egyptian Arabic about the key word or structure"}' });
+      const en = clean(r && r.en); if (!en) throw { code: 'empty' };
+      res.replaceChildren(h('div', { class: 'card stack' },
+        h('div', { class: 'row' }, h('span', { class: 'en', style: 'font-size:1.3rem;font-weight:700;flex:1', text: en }), speakBtn(en), starBtn({ text: en, ar: clean(ar), source: 'مش عارف أقولها' })),
+        arr(r.alt).length ? h('div', { class: 'stack', style: 'gap:2px' }, h('span', { class: 'small muted', text: 'أو:' }), arr(r.alt).map((a) => h('div', { class: 'row' }, h('span', { class: 'en', style: 'flex:1', text: a }), speakBtn(a)))) : null,
+        r.note_ar ? h('p', { class: 'small', text: r.note_ar }) : null,
+        c && !c.ended ? h('p', { class: 'small muted', text: c.mode === 'live' ? 'دلوقتي ارجع للمحادثة وقولها بصوتك.' : '' }) : null,
+        c && !c.ended && c.mode === 'turn' ? h('button', { class: 'btn wide', type: 'button', onclick: () => { S.draft = en; dockRefs.input.value = en; closeSheet(); dockRefs.input.focus(); } }, 'حطها في الرسالة') : null));
+    } catch (e) { res.replaceChildren(h('p', { class: 'note warn', text: errMsg(e) })); }
+    finally { go.disabled = false; }
+  });
+  openSheet('مش عارف أقولها', h('div', { class: 'stack' }, ta, h('div', { class: 'row' }, go, micAr), res), () => { if (Live.status === 'live' && Live.muted) Live.setMuted(false); });
+}
+async function endConvo() {
+  const c = S.convo; if (!c || c.ended) return;
+  if (Rec.key === 'talk') Rec.abort();
+  if (c.mode === 'live') { if (Live.curAi) Live.endAi(true); if (Live.curUser) { finishUserTurn(Live.curUser, ''); Live.curUser = null; } Live.stop(); }
+  Speaker.stop();
+  const userTurns = c.turns.filter((t) => t.role === 'user' && t.text);
+  c.ended = true;
+  if (!userTurns.length) { S.convo = null; renderTalk(); return; }
+  const minutes = Math.max(1, Math.round((Date.now() - c.startedAt) / 60000));
+  const body = h('div', { class: 'stack' }, h('p', { class: 'muted', text: 'بيراجع المحادثة كلها ويطلّعلك التقرير…' }), h('span', { class: 'dots', style: 'color:var(--accent)' }, h('i'), h('i'), h('i')));
+  openSheet('تقرير المحادثة', body);
+  S.convo = null; renderTalk();
+  const transcript = c.turns.filter((t) => !t.pending && t.text).map((t) => (t.role === 'ai' ? 'Partner: ' : 'Learner: ') + clean(t.text)).join('\n');
+  const prof = S.items.profile && S.items.profile.text ? S.items.profile.text : '(none yet)';
+  const prompt = [
+    'You are an expert English teacher for Arabic speakers from Egypt. Review this speaking-practice session.',
+    'The learner\'s lines came from speech-to-text: ignore punctuation, capitalization and fillers. Words that look like mis-hearings of similar-sounding words are possible pronunciation issues.',
+    'Level setting: ' + S.settings.level + '. Scenario: ' + scenarioText(c),
+    'Previous learner profile: ' + prof, '', 'TRANSCRIPT:', transcript.slice(-30000), '',
+    'Return ONLY JSON:',
+    '{"summary_ar":"2-3 sentences in Egyptian Arabic on how the session went","strengths_ar":["2-3 short points in Egyptian Arabic"],"mistakes":[{"original":"...","corrected":"...","type":"grammar|tense|preposition|article|word choice|word order|pronunciation|other","explain_ar":"short, Egyptian Arabic"}],"new_words":[{"en":"useful word or phrase from this session","ar":"meaning"}],"advice_ar":"one concrete thing to work on next session, Egyptian Arabic","level":"A2|B1|B2|C1","profile":"updated learner profile in English, at most 900 characters: level, recurring mistake patterns, topics they enjoy, facts about them useful in future conversations. Merge with the previous profile and drop outdated details."}',
+    'mistakes: the most important real mistakes only, up to 10, no duplicates. new_words: up to 8.'
+  ].join('\n');
+  let r = null, err = null;
+  try { r = await gen({ kind: 'smart', prompt }); } catch (e) { err = e; }
+  const inline = userTurns.flatMap((t) => arr(t.corrections));
+  const fromReport = r ? arr(r.mistakes).filter((m) => m && m.original && m.corrected).slice(0, 10) : [];
+  const mistakes = fromReport.length ? fromReport : inline.slice(0, 12);
+  const now = Date.now();
+  Store.put(c.id, { kind: 'session', ts: c.startedAt, scenario: c.scenario, custom: c.custom, mode: c.mode, minutes, userWords: c.userWords, turns: c.turns.length, summary: r ? clean(r.summary_ar) : '', advice: r ? clean(r.advice_ar) : '', level: r ? clean(r.level) : '', transcript: transcript.slice(-30000) });
+  pruneTranscripts(30);
+  mistakes.forEach((m, i) => Store.put(uid('m') + i, { kind: 'mistake', original: clean(m.original), corrected: clean(m.corrected), type: clean(m.type) || 'other', explain_ar: clean(m.explain_ar), ts: now, session: c.id }));
+  if (r && clean(r.profile)) { const old = S.items.profile || {}; Store.put('profile', { ...old, kind: 'profile', text: clean(r.profile).slice(0, 1200), level: clean(r.level) || old.level || '', updated: now }); }
+  Store.save();
+  if (!$('#sheet').classList.contains('on')) return;
+  const words = r ? arr(r.new_words).filter((w) => w && w.en).slice(0, 8) : [];
+  const picked = new Set(words.map((_, i) => i));
+  const kids = [h('div', { class: 'tiles' },
+    h('div', { class: 'tile' }, h('b', { text: minutes }), h('span', { text: 'دقيقة محادثة' })),
+    h('div', { class: 'tile' }, h('b', { text: c.userWords }), h('span', { text: 'كلمة قلتها' })),
+    h('div', { class: 'tile' }, h('b', { text: mistakes.length }), h('span', { text: 'ملاحظة' })),
+    h('div', { class: 'tile' }, h('b', { text: r && r.level ? r.level : '—', class: 'en' }), h('span', { text: 'مستواك في المحادثة دي' })))];
+  if (err) kids.push(h('p', { class: 'note warn', text: 'ما قدرتش أطلّع التقرير الكامل: ' + errMsg(err) + ' حفظت الملاحظات اللي ظهرت أثناء المحادثة.' }));
+  if (r && r.summary_ar) kids.push(h('p', { text: r.summary_ar }));
+  if (r && arr(r.strengths_ar).length) kids.push(h('div', { class: 'card stack', style: 'gap:4px' }, h('h3', { text: 'اللي عملته كويس' }), arr(r.strengths_ar).map((s) => h('p', { text: '✓ ' + s }))));
+  if (mistakes.length) kids.push(h('div', { class: 'card stack' }, h('h3', { text: 'أهم أخطاءك' }), correctionsList(mistakes)));
+  if (words.length) {
+    const saveBtn = h('button', { class: 'btn primary', type: 'button', onclick: () => {
+      let n = 0; words.forEach((w, i) => { if (picked.has(i) && !findWord(w.en)) { saveItem({ text: w.en, ar: w.ar, source: 'تقرير محادثة', quiet: true }); n++; } });
+      toast(n ? 'اتحفظ ' + n + ' في كلماتي' : 'كلهم محفوظين قبل كده'); saveBtn.disabled = true;
+    } }, icon('star'), 'احفظ المختار في كلماتي');
+    kids.push(h('div', { class: 'card stack' }, h('h3', { text: 'كلمات تستاهل تحفظها' }),
+      words.map((w, i) => h('label', { class: 'row', style: 'align-items:flex-start' },
+        h('input', { type: 'checkbox', checked: true, style: 'width:20px;height:20px;margin-top:4px', onchange: (e) => { if (e.target.checked) picked.add(i); else picked.delete(i); } }),
+        h('span', { style: 'flex:1' }, h('span', { class: 'en', style: 'font-weight:700', text: w.en }), ' — ', w.ar || ''))),
+      saveBtn));
+  }
+  if (r && r.advice_ar) kids.push(h('div', { class: 'note' }, h('b', { text: 'المرة الجاية: ' }), r.advice_ar));
+  kids.push(h('button', { class: 'btn wide', type: 'button', onclick: closeSheet }, 'تمام'));
+  body.replaceChildren(...kids);
+}
+
+/* ================= LENS ================= */
+const LENS_MODES = [['name', 'إيه اسمه؟'], ['translate', 'ترجم نص أو إيميل'], ['reply', 'اكتب رد على إيميل'], ['describe', 'وصّف الصورة']];
+async function imageToB64(file) {
+  try {
+    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    const max = 1400; const sc = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * sc); cv.height = Math.round(bmp.height * sc);
+    cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+    const blob = await new Promise((res) => cv.toBlob(res, 'image/jpeg', 0.85));
+    return { mime: 'image/jpeg', data: bytesToB64(new Uint8Array(await blob.arrayBuffer())) };
+  } catch {
+    return { mime: file.type || 'image/jpeg', data: bytesToB64(new Uint8Array(await file.arrayBuffer())) };
+  }
+}
+function renderLens() {
+  const L = S.lens; const v = views.lens;
+  const pick = (input) => {
+    const f = input.files && input.files[0]; input.value = '';
+    if (!f) return;
+    if (L.url) URL.revokeObjectURL(L.url);
+    L.file = f; L.url = URL.createObjectURL(f); L.result = null; L.err = '';
+    renderLens();
+  };
+  const needsText = L.mode === 'translate' || L.mode === 'reply';
+  const actionLabel = { name: 'قولّي اسمها إيه', translate: 'ترجم', reply: 'اكتب الرد', describe: 'صحّحلي الوصف' }[L.mode];
+  const intro = {
+    name: 'صوّر أي حاجة حواليك، وهيقولك اسمها بالإنجليزي ونطقها ومثال عليها.',
+    translate: 'صوّر نص أو إيميل، أو الصقه تحت. هيترجمه، ولو إيميل هيقولك عايزين منك إيه.',
+    reply: 'صوّر الإيميل اللي جالك أو الصقه، وقول عايز ترد بإيه، وهيكتبلك رد جاهز.',
+    describe: 'صوّر حاجة ووصّفها انت بالإنجليزي بصوتك أو بالكتابة، وهو يصحّحلك.'
+  }[L.mode];
+  v.replaceChildren(h('div', { class: 'stack' },
+    h('h2', { text: 'العدسة' }),
+    h('div', { class: 'row', role: 'group', 'aria-label': 'نوع الطلب' }, LENS_MODES.map(([id, label]) => h('button', { class: 'chip', type: 'button', 'aria-pressed': String(L.mode === id), onclick: () => { L.mode = id; L.result = null; L.err = ''; renderLens(); } }, label))),
+    h('p', { class: 'muted', text: intro }),
+    S.settings.apiKey ? null : h('button', { class: 'note warn', type: 'button', style: 'border:0;text-align:right', onclick: openKeySetup, text: 'حط مفتاح Gemini الأول عشان العدسة تشتغل. دوس هنا.' }),
+    h('input', { type: 'file', id: 'camIn', class: 'vh', accept: 'image/*', capture: 'environment', onchange: (e) => pick(e.target) }),
+    h('input', { type: 'file', id: 'picIn', class: 'vh', accept: 'image/*', onchange: (e) => pick(e.target) }),
+    L.url ? h('div', { class: 'preview' }, h('img', { src: L.url, alt: 'الصورة اللي اخترتها' }), h('button', { class: 'iconbtn', type: 'button', 'aria-label': 'شيل الصورة', onclick: () => { URL.revokeObjectURL(L.url); L.url = ''; L.file = null; L.result = null; renderLens(); } }, icon('x'))) : null,
+    h('div', { class: 'row' },
+      h('label', { class: 'btn' + (L.url ? '' : ' primary'), for: 'camIn' }, icon('camera'), L.url ? 'صوّر تاني' : 'صوّر'),
+      h('label', { class: 'btn', for: 'picIn' }, icon('image'), 'اختار من الصور')),
+    needsText ? h('div', null, h('label', { class: 'f', for: 'lensText', text: L.url ? 'أو الصق النص هنا (اختياري)' : 'أو الصق النص هنا' }),
+      h('textarea', { id: 'lensText', dir: 'auto', placeholder: 'Paste the text or email here…', oninput: (e) => { L.text = e.target.value; } }, L.text)) : null,
+    L.mode === 'reply' ? h('div', { class: 'stack', style: 'gap:8px' },
+      h('div', null, h('label', { class: 'f', for: 'lensIntent', text: 'عايز تقول إيه في الرد؟ (عربي أو إنجليزي)' }),
+        h('textarea', { id: 'lensIntent', dir: 'auto', placeholder: 'مثلاً: موافق على الميعاد بس محتاج الكمية تتسلم على دفعتين', oninput: (e) => { L.intent = e.target.value; } }, L.intent)),
+      h('div', { class: 'row', role: 'group', 'aria-label': 'أسلوب الرد' }, h('span', { class: 'small muted', text: 'الأسلوب:' }), TONES.map(([id, label]) => h('button', { class: 'chip', type: 'button', 'aria-pressed': String(L.tone === id), onclick: () => { L.tone = id; renderLens(); } }, label)))) : null,
+    L.mode === 'describe' ? h('div', null, h('label', { class: 'f', for: 'lensDesc', text: 'وصفك بالإنجليزي' }),
+      h('textarea', { id: 'lensDesc', class: 'en', placeholder: 'In this photo I can see…', oninput: (e) => { L.desc = e.target.value; } }, L.desc),
+      h('div', { class: 'row', style: 'margin-top:8px' }, micBtn('lensDesc', 'وصّف بصوتك', 'خلصت', () => {
+        const base = L.desc;
+        const write = (t) => { L.desc = (base ? base.trim() + ' ' : '') + t; const el = $('#lensDesc'); if (el) el.value = L.desc; };
+        Rec.start('lensDesc', S.settings.accent === 'UK' ? 'en-GB' : 'en-US', { onText: write, onDone: (t) => { if (t) write(t); } });
+      }))) : null,
+    h('button', { class: 'btn primary wide', type: 'button', disabled: L.busy, onclick: runLens, style: 'min-height:48px' }, L.busy ? 'بيشتغل…' : actionLabel),
+    L.err ? h('p', { class: 'note warn', text: L.err }) : null,
+    L.busy ? h('div', { class: 'card', style: 'color:var(--accent)' }, h('span', { class: 'dots' }, h('i'), h('i'), h('i'))) : null,
+    L.result ? lensResult(L.result) : null));
+}
+async function runLens() {
+  const L = S.lens; if (L.busy) return;
+  if (!S.settings.apiKey) { openKeySetup(); return; }
+  const hasImg = !!L.file; const txt = clean(L.text);
+  if ((L.mode === 'name' || L.mode === 'describe') && !hasImg) { toast('صوّر حاجة الأول.'); return; }
+  if ((L.mode === 'translate' || L.mode === 'reply') && !hasImg && !txt) { toast('صوّر النص أو الصقه الأول.'); return; }
+  if (L.mode === 'describe' && !clean(L.desc)) { toast('وصّف الصورة بالإنجليزي الأول.'); return; }
+  const lvl = S.settings.level; const acc = S.settings.accent === 'UK' ? 'British' : 'American';
+  const next = { A2: 'B1', B1: 'B2', B2: 'C1', C1: 'C1' }[lvl] || 'B2';
+  let prompt = '', kind = 'smart';
+  if (L.mode === 'name') {
+    kind = 'quick';
+    prompt = 'Look at this photo. Name the most prominent objects (up to 8, most prominent first) for an Arabic-speaking English learner.\nReturn ONLY JSON: {"items":[{"en":"English noun or short noun phrase","ar":"Arabic name","ipa":"/' + acc + ' IPA/","example":"short simple English sentence using it"}],"scene":"one simple English sentence describing the photo","scene_ar":"its Arabic translation"}';
+  } else if (L.mode === 'translate') {
+    prompt = (hasImg ? 'Read all the text in this image.' : 'Here is a text.') + ' If it is English, translate it into clear Arabic. If it is Arabic, translate it into natural English. If it is an email or a message, also say briefly what it asks for.\n' + (txt ? 'TEXT:\n' + txt.slice(0, 20000) + '\n' : '') + 'Return ONLY JSON: {"original":"' + (hasImg ? 'the original text as read from the image' : '') + '","translation":"the full translation","summary_ar":"if it is an email or message: 1-3 sentences in Egyptian Arabic on what it says and what is requested; otherwise empty","terms":[{"en":"useful English word or phrase from the text","ar":"meaning"}]}\nterms: up to 8 that are worth learning.';
+  } else if (L.mode === 'reply') {
+    const toneEn = { formal: 'formal and polite', friendly: 'friendly but professional', firm: 'firm and clear, still polite', brief: 'short and to the point' }[L.tone];
+    prompt = 'Help an Arabic-speaking professional reply to an email in English.\n' + (hasImg ? 'The email is in the image.\n' : '') + (txt ? 'EMAIL:\n' + txt.slice(0, 20000) + '\n' : '') + 'What they want to say (may be Arabic): ' + (clean(L.intent) || '(not given: write a polite reply that acknowledges and answers the main points)') + '\nTone: ' + toneEn + '. Use ' + acc + ' spelling. Put [brackets] around any detail you do not know (dates, numbers, names).\nReturn ONLY JSON: {"subject":"Re: ...","body":"the full reply with greeting and sign-off, using \\n for new lines","phrases":[{"en":"a useful phrase used in the reply","ar":"its meaning and when to use it, in Egyptian Arabic"}]}\nphrases: 3-6.';
+  } else {
+    prompt = 'An English learner (level ' + lvl + ') is describing this photo as speaking practice. Their description, from speech-to-text or typing (ignore punctuation and capitalization):\n"' + clean(L.desc).slice(0, 4000) + '"\nReturn ONLY JSON: {"feedback_ar":"1-2 encouraging sentences in Egyptian Arabic: what was good and the main thing to improve","corrections":[{"original":"...","corrected":"...","type":"grammar|tense|preposition|article|word choice|word order|pronunciation|other","explain_ar":"short, Egyptian Arabic"}],"model":"a natural description of the photo at level ' + next + ', 3-4 sentences","words":[{"en":"useful word for this photo","ar":"meaning"}]}';
+  }
+  L.busy = true; L.result = null; L.err = ''; renderLens();
+  try {
+    const parts = [];
+    if (hasImg) { const img = await imageToB64(L.file); parts.push({ inlineData: { mimeType: img.mime, data: img.data } }); }
+    parts.push({ text: prompt });
+    const data = await gen({ kind, parts });
+    L.result = { mode: L.mode, data: data || {} };
+  } catch (e) { L.err = errMsg(e); }
+  finally { L.busy = false; if (S.tab === 'lens') withFocus(views.lens, renderLens); }
+}
+function lensResult(res) {
+  const d = res.data;
+  if (res.mode === 'name') {
+    return h('div', { class: 'card' },
+      arr(d.items).map((it) => h('div', { class: 'item' },
+        h('div', { class: 'head' }, h('span', { class: 'en-big', text: it.en }), speakBtn(it.en), starBtn({ text: it.en, ar: it.ar, ipa: it.ipa, example: it.example, source: 'العدسة' })),
+        h('div', { class: 'row' }, it.ipa ? h('span', { class: 'ipa', text: it.ipa }) : null, h('span', { class: 'ar', text: it.ar || '' })),
+        it.example ? h('div', { class: 'row' }, h('span', { class: 'ex', style: 'flex:1', text: it.example }), speakBtn(it.example, 'اسمع المثال')) : null)),
+      d.scene ? h('div', { class: 'item' },
+        h('span', { class: 'small muted', text: 'جملة عن الصورة' }),
+        h('div', { class: 'head' }, h('span', { class: 'en', style: 'flex:1;font-size:1.05rem', text: d.scene }), speakBtn(d.scene), starBtn({ text: d.scene, ar: d.scene_ar, source: 'العدسة' })),
+        d.scene_ar ? h('span', { class: 'muted', text: d.scene_ar }) : null) : null);
+  }
+  if (res.mode === 'translate') {
+    return h('div', { class: 'stack' },
+      clean(d.summary_ar) ? h('div', { class: 'note' }, h('b', { text: 'الخلاصة: ' }), d.summary_ar) : null,
+      h('div', { class: 'card stack' }, h('div', { class: 'row' }, h('h3', { text: 'الترجمة', style: 'flex:1' }), copyBtn(() => d.translation || '')), h('p', { class: 'pre', dir: 'auto', text: d.translation || '' })),
+      d.original ? h('details', { class: 'card' }, h('summary', { text: 'النص الأصلي' }), h('div', { class: 'row', style: 'margin-top:8px' }, h('p', { class: 'pre', dir: 'auto', style: 'flex:1', text: d.original }), /[A-Za-z]/.test(d.original) ? speakBtn(d.original.slice(0, 2500), 'اسمع النص') : null)) : null,
+      arr(d.terms).length ? h('div', { class: 'card' }, h('h3', { text: 'كلمات تستاهل تتعلمها' }), arr(d.terms).map((t) => h('div', { class: 'item' }, h('div', { class: 'head' }, h('span', { class: 'en-big', style: 'font-size:1.02rem', text: t.en }), speakBtn(t.en), starBtn({ text: t.en, ar: t.ar, source: 'ترجمة' })), h('span', { class: 'ar', text: t.ar || '' })))) : null);
+  }
+  if (res.mode === 'reply') {
+    const full = (d.subject ? 'Subject: ' + d.subject + '\n\n' : '') + (d.body || '');
+    return h('div', { class: 'stack' },
+      h('div', { class: 'card stack' },
+        h('div', { class: 'row' }, h('h3', { text: 'الرد الجاهز', style: 'flex:1' }), copyBtn(() => d.body || ''), h('button', { class: 'btn sm', type: 'button', onclick: () => Speaker.say(d.body || '') }, icon('speaker'), 'اسمعه')),
+        d.subject ? h('p', { class: 'en', style: 'font-weight:700', text: 'Subject: ' + d.subject }) : null,
+        h('p', { class: 'en pre', text: d.body || '' }),
+        h('div', { class: 'row' }, copyBtn(() => full), h('span', { class: 'small muted', text: 'ينسخ العنوان والرد مع بعض' }))),
+      arr(d.phrases).length ? h('div', { class: 'card' }, h('h3', { text: 'تعبيرات اتعلمها من الرد' }), arr(d.phrases).map((p) => h('div', { class: 'item' }, h('div', { class: 'head' }, h('span', { class: 'en-big', style: 'font-size:1.02rem', text: p.en }), speakBtn(p.en), starBtn({ text: p.en, ar: p.ar, source: 'رد إيميل' })), h('span', { text: p.ar || '' })))) : null);
+  }
+  return h('div', { class: 'stack' },
+    d.feedback_ar ? h('div', { class: 'note', text: d.feedback_ar }) : null,
+    arr(d.corrections).length ? h('div', { class: 'card stack' }, h('h3', { text: 'التصحيح' }), correctionsList(arr(d.corrections).filter((x) => x && x.original))) : h('p', { class: 'ok-chip' }, icon('check'), 'مفيش أخطاء واضحة'),
+    d.model ? h('div', { class: 'card stack' }, h('div', { class: 'row' }, h('h3', { text: 'وصف أعلى من مستواك بخطوة', style: 'flex:1' }), speakBtn(d.model), starBtn({ text: d.model, source: 'وصف صورة' })), h('p', { class: 'en', text: d.model })) : null,
+    arr(d.words).length ? h('div', { class: 'card' }, h('h3', { text: 'كلمات مفيدة للصورة' }), arr(d.words).map((w) => h('div', { class: 'item' }, h('div', { class: 'head' }, h('span', { class: 'en-big', style: 'font-size:1.02rem', text: w.en }), speakBtn(w.en), starBtn({ text: w.en, ar: w.ar, source: 'وصف صورة' })), h('span', { text: w.ar || '' })))) : null);
+}
+
+/* ================= LIBRARY ================= */
+function renderLib() {
+  const v = views.lib; const Lb = S.lib;
+  const all = Store.all('word').sort((a, b) => (b.created || 0) - (a.created || 0));
+  const due = dueWords();
+  const q = clean(Lb.q).toLowerCase();
+  const usedTags = [...new Set([...TAGS, ...all.map((w) => w.tag).filter(Boolean)])];
+  const list = all.filter((w) => (Lb.tag === 'all' || (Lb.tag === 'none' ? !w.tag : w.tag === Lb.tag)) && (!q || (w.text + ' ' + (w.ar || '') + ' ' + (w.example || '')).toLowerCase().includes(q)));
+  const addForm = h('form', { class: 'stack', style: 'gap:8px', onsubmit: (e) => {
+    e.preventDefault(); const t = clean(Lb.addText); if (!t) return;
+    if (saveItem({ text: t, tag: Lb.addTag, source: 'إضافة' })) { Lb.addText = ''; renderLib(); }
+  } },
+    h('label', { class: 'f', for: 'addText', text: 'ضيف كلمة أو جملة' }),
+    h('div', { class: 'row', style: 'flex-wrap:nowrap' },
+      h('input', { type: 'text', id: 'addText', class: 'en', placeholder: 'e.g. lead time', value: Lb.addText, oninput: (e) => { Lb.addText = e.target.value; } }),
+      h('button', { class: 'btn primary', type: 'submit' }, icon('star'), 'احفظ')),
+    h('select', { id: 'addTag', 'aria-label': 'التصنيف', onchange: (e) => { Lb.addTag = e.target.value; } },
+      h('option', { value: '', text: 'من غير تصنيف' }), usedTags.map((t) => h('option', { value: t, text: t, selected: Lb.addTag === t }))));
+  v.replaceChildren(h('div', { class: 'stack' },
+    h('div', { class: 'row' }, h('h2', { text: 'كلماتي', style: 'flex:1' }), h('span', { class: 'muted small', text: all.length + ' محفوظة' })),
+    h('div', { class: 'card row' },
+      h('div', { style: 'flex:1;min-width:0' }, h('b', { text: due.length ? due.length + ' محتاجين مراجعة النهارده' : 'مفيش مراجعة دلوقتي' }), h('p', { class: 'small muted', text: 'المراجعة المتباعدة: اللي بتنساه يرجعلك أسرع، واللي حافظه يبعد.' })),
+      h('button', { class: 'btn primary', type: 'button', disabled: !due.length, onclick: openReview }, 'راجع')),
+    addForm,
+    h('input', { type: 'search', id: 'libSearch', placeholder: 'دوّر بالعربي أو بالإنجليزي', 'aria-label': 'دوّر في كلماتي', value: Lb.q, oninput: (e) => { Lb.q = e.target.value; withFocus(views.lib, renderLib); } }),
+    h('div', { class: 'row', role: 'group', 'aria-label': 'التصنيفات' }, [['all', 'الكل'], ...usedTags.map((t) => [t, t]), ['none', 'من غير تصنيف']].map(([id, label]) => h('button', { class: 'chip', type: 'button', 'aria-pressed': String(Lb.tag === id), onclick: () => { Lb.tag = id; renderLib(); } }, label))),
+    list.length ? h('div', { class: 'card', style: 'padding-top:2px;padding-bottom:2px' }, list.slice(0, 300).map((w) => wordRow(w)))
+      : h('div', { class: 'card stack' }, h('p', { text: all.length ? 'مفيش حاجة بالبحث ده.' : 'لسه ما حفظتش حاجة.' }),
+        all.length ? null : h('p', { class: 'muted small', text: 'دوس على أي كلمة في رد طلاقة واحفظها، أو دوس على النجمة جنب أي جملة، أو قول "save this" في المحادثة. اللي تحفظه من العدسة والترجمة بيوصل هنا برضه.' }))));
+}
+function wordRow(w) {
+  const box = Math.min(w.box || 0, INTERVALS.length);
+  const isDue = (w.due || 0) <= Date.now();
+  let armed = false;
+  const delBtn = h('button', { class: 'mini', type: 'button', 'aria-label': 'امسح', title: 'امسح', onclick: (e) => {
+    if (!armed) { armed = true; e.currentTarget.style.color = 'var(--bad)'; toast('دوس تاني على سلة المهملات عشان تمسح'); setTimeout(() => { armed = false; }, 3000); return; }
+    Store.del(w.id); toast('اتمسحت');
+  } }, icon('trash'));
+  return h('div', { class: 'item' },
+    h('div', { class: 'head' }, h('span', { class: 'en-big', text: w.text }), speakBtn(w.text), delBtn),
+    w.ipa ? h('span', { class: 'ipa', text: w.ipa }) : null,
+    h('span', { class: 'ar', text: w.ar || (S.settings.apiKey ? 'المعنى بيتجاب…' : '') }),
+    w.example ? h('span', { class: 'ex', text: w.example }) : null,
+    h('div', { class: 'meta' },
+      h('span', { class: 'boxdots', title: 'درجة الحفظ' }, INTERVALS.map((_, i) => h('i', { class: i < box ? 'f' : '' }))),
+      isDue ? h('span', { class: 'tag', text: 'للمراجعة' }) : h('span', { text: 'المراجعة ' + fmtDate(w.due) }),
+      w.source ? h('span', { text: 'من: ' + w.source }) : null,
+      h('select', { 'aria-label': 'غيّر التصنيف', style: 'width:auto;min-height:30px;padding:2px 8px;font-size:.78rem', onchange: (e) => Store.patch(w.id, { tag: e.target.value }) },
+        h('option', { value: '', text: 'تصنيف' }), [...new Set([...TAGS, w.tag].filter(Boolean))].map((t) => h('option', { value: t, text: t, selected: w.tag === t })))));
+}
+function openReview() {
+  const queue = dueWords().sort((a, b) => (a.due || 0) - (b.due || 0)).slice(0, 25).map((w) => w.id);
+  if (!queue.length) { toast('مفيش حاجة للمراجعة دلوقتي.'); return; }
+  const rv = { queue, idx: 0, show: false, again: new Set(), done: 0 };
+  const body = h('div', { class: 'stack' });
+  const draw = () => {
+    const id = rv.queue[rv.idx]; const w = id && S.items[id];
+    if (!w) { body.replaceChildren(h('div', { class: 'flash' }, h('h2', { text: 'خلصت المراجعة' }), h('p', { class: 'muted', text: 'راجعت ' + rv.done + ' كلمة وجملة. ارجع بكرة للدفعة الجاية.' })), h('button', { class: 'btn primary wide', type: 'button', onclick: closeSheet }, 'تمام')); return; }
+    const next = (g) => { grade(w, g); rv.done++; if (g === 'again' && !rv.again.has(id)) { rv.again.add(id); rv.queue.push(id); } rv.idx++; rv.show = false; draw(); };
+    body.replaceChildren(
+      h('p', { class: 'small muted', text: (rv.idx + 1) + ' من ' + rv.queue.length }),
+      h('div', { class: 'card flash stack' },
+        h('div', { class: 'en-card', text: w.text }),
+        w.ipa ? h('div', { class: 'ipa en', style: 'text-align:center', text: w.ipa }) : null,
+        h('div', { class: 'row', style: 'justify-content:center' }, h('button', { class: 'btn sm', type: 'button', onclick: () => Speaker.say(w.text) }, icon('speaker'), 'اسمع')),
+        rv.show ? h('div', { class: 'stack', style: 'gap:6px' },
+          h('p', { style: 'font-size:1.2rem;font-weight:700', text: w.ar || '—' }),
+          w.example ? h('p', { class: 'en muted', style: 'text-align:center', text: w.example }) : null,
+          w.context && w.context !== w.text ? h('p', { class: 'en small muted', style: 'text-align:center', text: '“' + w.context + '”' }) : null) : null),
+      practiceBlock('s:rv_' + id, w.text),
+      rv.show
+        ? h('div', { class: 'row', style: 'flex-wrap:nowrap' },
+          h('button', { class: 'btn wide danger', type: 'button', onclick: () => next('again') }, 'نسيتها'),
+          h('button', { class: 'btn wide', type: 'button', onclick: () => next('hard') }, 'صعبة'),
+          h('button', { class: 'btn wide primary', type: 'button', onclick: () => next('good') }, 'عرفتها'))
+        : h('button', { class: 'btn primary wide', type: 'button', style: 'min-height:48px', onclick: () => { rv.show = true; draw(); } }, 'اظهر المعنى'));
+  };
+  openSheet('مراجعة', body, () => { logActivity(); renderSoon(); });
+  draw();
+}
+
+/* ================= PRONUNCIATION ================= */
+function renderPron() {
+  const v = views.pron; const P = S.pron;
+  const sources = [['sounds', 'أصوات صعبة على العرب'], ['words', 'من كلماتي'], ['mistakes', 'من أخطائي']];
+  v.replaceChildren(h('div', { class: 'stack' },
+    h('h2', { text: 'النطق' }),
+    h('p', { class: 'muted', text: 'اسمع الجملة، وبعدين دوس "قولها" وقولها. Gemini بيسمع تسجيلك ويقولك كل كلمة نطقتها إزاي، والكلمات اللي محتاجة شغل بتظهر بالأحمر.' }),
+    S.settings.apiKey ? null : h('button', { class: 'note warn', type: 'button', style: 'border:0;text-align:right', onclick: openKeySetup, text: 'تقييم النطق محتاج مفتاح Gemini. دوس هنا تحطه.' }),
+    h('div', { class: 'row', role: 'group', 'aria-label': 'مصدر التمارين' }, sources.map(([id, label]) => h('button', { class: 'chip', type: 'button', 'aria-pressed': String(P.source === id), onclick: () => { P.source = id; renderPron(); } }, label))),
+    h('button', { class: 'btn', type: 'button', disabled: P.busy, onclick: genDrills }, icon('refresh'), P.busy ? 'بيجهز التمارين…' : 'هات تمارين جديدة'),
+    P.drills.map((d) => h('div', { class: 'card drill stack' },
+      h('div', { class: 'row' }, h('span', { class: 'tag', text: d.focus || 'تمرين' }), h('span', { class: 'spacer' }), starBtn({ text: d.text, source: 'النطق' })),
+      h('div', { class: 'text', text: d.text }),
+      d.tip ? h('p', { class: 'small', text: d.tip }) : null,
+      practiceBlock('pr_' + hashStr(d.text), d.text)))));
+}
+async function genDrills() {
+  const P = S.pron; if (P.busy) return;
+  if (!S.settings.apiKey) { openKeySetup(); return; }
+  const lvl = S.settings.level; let prompt;
+  if (P.source === 'words') {
+    const words = Store.all('word').sort((a, b) => (a.due || 0) - (b.due || 0)).slice(0, 12).map((w) => w.text);
+    if (!words.length) { toast('احفظ كلمات في كلماتي الأول.'); return; }
+    prompt = 'Create 6 short natural English sentences (at most 12 words each, level ' + lvl + ') that use these words or phrases, one or two per sentence: ' + words.join(' | ') + '\nReturn ONLY a JSON array: [{"text":"sentence","focus":"the word being practised","tip":"how to pronounce that word (stress and tricky sounds) in short Egyptian Arabic, with its IPA"}]';
+  } else if (P.source === 'mistakes') {
+    const ms = Store.all('mistake').sort((a, b) => (b.ts || 0) - (a.ts || 0)).slice(0, 12);
+    if (!ms.length) { toast('لسه مفيش أخطاء محفوظة. اتكلم شوية الأول.'); return; }
+    prompt = 'An English learner (level ' + lvl + ') made these mistakes:\n' + ms.map((m) => '- "' + m.original + '" → "' + m.corrected + '"').join('\n') + '\nCreate 6 short, correct English sentences (at most 12 words each) that practise the same patterns, so the learner says them correctly out loud.\nReturn ONLY a JSON array: [{"text":"sentence","focus":"the pattern, short Arabic label","tip":"short reminder in Egyptian Arabic"}]';
+  } else {
+    prompt = 'Create 6 short English pronunciation-practice sentences (at most 12 words each, level ' + lvl + ') for an Egyptian Arabic speaker. Target sounds that are hard for Arabic speakers: p/b, v/f, th, short vs long vowels, consonant clusters, -ed endings, silent letters, word stress. Do not repeat these: ' + P.drills.map((d) => d.text).join(' | ') + '\nReturn ONLY a JSON array: [{"text":"sentence","focus":"target sound, short label","tip":"one short tip in Egyptian Arabic on how to produce it"}]';
+  }
+  P.busy = true; renderPron();
+  try {
+    const out = arr(await gen({ kind: 'quick', prompt })).filter((d) => d && clean(d.text)).slice(0, 8);
+    if (!out.length) throw { code: 'empty' };
+    P.drills = out.map((d) => ({ text: clean(d.text), focus: clean(d.focus), tip: clean(d.tip) }));
+  } catch (e) { toast(errMsg(e)); }
+  finally { P.busy = false; if (S.tab === 'pron') withFocus(views.pron, renderPron); }
+}
+
+/* ================= PROGRESS ================= */
+function renderProg() {
+  const v = views.prog; const G = S.prog;
+  const sessions = Store.all('session').sort((a, b) => (b.ts || 0) - (a.ts || 0));
+  const words = Store.all('word');
+  const mistakes = Store.all('mistake').sort((a, b) => (b.ts || 0) - (a.ts || 0));
+  const talkMin = sessions.reduce((s, x) => s + (x.minutes || 0), 0);
+  const prof = S.items.profile || {};
+  const days = new Set();
+  sessions.forEach((x) => days.add(dayKey(x.ts)));
+  words.forEach((w) => { if (w.lastReview) days.add(dayKey(w.lastReview)); if (w.created) days.add(dayKey(w.created)); });
+  Store.all('activity').forEach((a) => a.day && days.add(a.day));
+  let streak = 0; const d = new Date();
+  if (!days.has(dayKey(d.getTime()))) d.setDate(d.getDate() - 1);
+  while (days.has(dayKey(d.getTime()))) { streak++; d.setDate(d.getDate() - 1); }
+  const counts = {}; mistakes.forEach((m) => { const t = TYPE_AR[m.type] ? m.type : 'other'; counts[t] = (counts[t] || 0) + 1; });
+  const types = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const maxC = types.length ? types[0][1] : 1;
+  const assess = prof.assess;
+  v.replaceChildren(h('div', { class: 'stack' },
+    h('h2', { text: 'تقدمي' }),
+    h('div', { class: 'tiles' },
+      h('div', { class: 'tile' }, h('b', { text: talkMin }), h('span', { text: 'دقيقة محادثة' })),
+      h('div', { class: 'tile' }, h('b', { text: sessions.length }), h('span', { text: 'محادثة' })),
+      h('div', { class: 'tile' }, h('b', { text: words.length }), h('span', { text: 'كلمة وجملة محفوظة' })),
+      h('div', { class: 'tile' }, h('b', { text: streak }), h('span', { text: streak === 1 ? 'يوم متواصل' : 'أيام متواصلة' }))),
+    h('div', { class: 'card stack' },
+      h('div', { class: 'row' },
+        h('div', { style: 'flex:1' }, h('h3', { text: 'مستواك' }), h('p', { class: 'small muted', text: assess ? 'آخر تقييم ' + fmtDate(assess.ts) : (prof.level ? 'من آخر محادثة' : 'اتكلم محادثة واحدة على الأقل وبعدين قيّم مستواك') })),
+        h('span', { class: 'level-badge', text: (assess && assess.overall) || prof.level || '—' })),
+      assess ? h('div', { class: 'row small' }, [['speaking', 'الكلام'], ['grammar', 'القواعد'], ['vocabulary', 'المفردات']].map(([k, l]) => assess[k] ? h('span', { class: 'chip' }, l + ' ', h('b', { class: 'en', text: assess[k] })) : null)) : null,
+      assess && assess.notes_ar ? h('p', { text: assess.notes_ar }) : null,
+      assess && arr(assess.next_ar).length ? h('div', { class: 'stack', style: 'gap:2px' }, h('b', { class: 'small', text: 'تشتغل على إيه:' }), arr(assess.next_ar).map((x) => h('p', { class: 'small', text: '• ' + x }))) : null,
+      h('button', { class: 'btn', type: 'button', disabled: G.assessBusy || !sessions.length, onclick: runAssess }, G.assessBusy ? 'بيقيّم…' : 'قيّم مستوايا من محادثاتي')),
+    h('div', { class: 'card stack' },
+      h('h3', { text: 'أخطاءك بتتكرر في إيه' }),
+      types.length ? h('div', { class: 'bars' }, types.map(([t, n]) => h('div', { class: 'bar' }, h('span', { text: TYPE_AR[t] }), h('span', { class: 'track' }, h('span', { class: 'fill', style: 'width:' + Math.max(6, Math.round(100 * n / maxC)) + '%' })), h('span', { class: 'n', text: n }))))
+        : h('p', { class: 'muted small', text: 'بعد أول محادثة هتلاقي هنا أكتر الأخطاء اللي بتتكرر عندك.' }),
+      mistakes.length ? h('button', { class: 'btn primary', type: 'button', disabled: G.busy, onclick: genMistakeDrills }, G.busy ? 'بيجهز…' : 'اتمرّن على أخطائي') : null,
+      G.drills ? h('div', { class: 'stack' }, G.drills.map((dr, i) => mistakeDrill(dr, i))) : null),
+    mistakes.length ? h('div', { class: 'card stack' }, h('h3', { text: 'آخر أخطاء' }), correctionsList(mistakes.slice(0, 8))) : null,
+    prof.text ? h('details', { class: 'card' }, h('summary', { text: 'اللي طلاقة فاكره عنك' }), h('p', { class: 'en small', style: 'margin-top:8px', text: prof.text }), h('p', { class: 'small muted', style: 'margin-top:6px', text: 'بيستخدمه عشان يكمّل معاك من حيث وقفتوا في كل محادثة جديدة.' })) : null,
+    sessions.length ? h('div', { class: 'card' }, h('h3', { text: 'المحادثات' }), sessions.slice(0, 10).map((x) => h('div', { class: 'item' },
+      h('div', { class: 'meta' }, h('b', { text: SCEN[x.scenario] ? SCEN[x.scenario].ar : 'موقف من عندك', style: 'color:var(--ink)' }), h('span', { text: fmtDate(x.ts) }), h('span', { text: (x.minutes || 0) + ' دقيقة' }), x.level ? h('span', { class: 'tag en', text: x.level }) : null),
+      x.summary ? h('p', { class: 'small', text: x.summary }) : null))) : null));
+}
+function mistakeDrill(dr, i) {
+  const st = S.prog.answers[i] || (S.prog.answers[i] = { val: '', shown: false });
+  const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9' ]/g, '').replace(/\s+/g, ' ').trim();
+  return h('div', { class: 'card stack', style: 'background:var(--paper)' },
+    h('p', { class: 'en', style: 'font-size:1.05rem' }, h('del', { style: 'color:var(--bad)', text: dr.wrong })),
+    h('input', { type: 'text', id: 'md_' + i, class: 'en', placeholder: 'Write it correctly…', value: st.val, oninput: (e) => { st.val = e.target.value; } }),
+    h('button', { class: 'btn sm', type: 'button', onclick: () => { st.shown = true; withFocus(views.prog, renderProg); } }, 'شوف الإجابة'),
+    st.shown ? h('div', { class: 'stack', style: 'gap:4px' },
+      clean(st.val) ? h('span', { class: 'ok-chip', style: norm(st.val) === norm(dr.right) ? '' : 'color:var(--warn)' }, norm(st.val) === norm(dr.right) ? 'إجابتك مطابقة' : 'قارن إجابتك بالصح') : null,
+      h('div', { class: 'row' }, h('ins', { class: 'en', style: 'color:var(--good);text-decoration:none;font-weight:700;flex:1', text: dr.right }), speakBtn(dr.right)),
+      dr.explain_ar ? h('p', { class: 'small muted', text: dr.explain_ar }) : null) : null);
+}
+async function genMistakeDrills() {
+  const G = S.prog; if (G.busy) return;
+  const ms = Store.all('mistake').sort((a, b) => (b.ts || 0) - (a.ts || 0)).slice(0, 15);
+  if (!ms.length) return;
+  G.busy = true; renderProg();
+  try {
+    const out = await gen({ kind: 'quick', prompt: 'An English learner (level ' + S.settings.level + ') made these mistakes:\n' + ms.map((m) => '- "' + m.original + '" → "' + m.corrected + '" (' + (m.type || '') + ')').join('\n') + '\nWrite 5 NEW short sentences, each containing the same kind of mistake, for the learner to correct.\nReturn ONLY a JSON array: [{"wrong":"sentence with one mistake","right":"corrected sentence","explain_ar":"short explanation in Egyptian Arabic"}]' });
+    G.drills = arr(out).filter((x) => x && x.wrong && x.right).slice(0, 6); G.answers = {};
+    if (!G.drills.length) throw { code: 'empty' };
+  } catch (e) { toast(errMsg(e)); G.drills = null; }
+  finally { G.busy = false; if (S.tab === 'prog') withFocus(views.prog, renderProg); }
+}
+async function runAssess() {
+  const G = S.prog; if (G.assessBusy) return;
+  const sessions = Store.all('session').sort((a, b) => (b.ts || 0) - (a.ts || 0)).slice(0, 4);
+  if (!sessions.length) return;
+  const lines = sessions.map((s) => String(s.transcript || '').split('\n').filter((l) => l.startsWith('Learner: ')).join('\n')).join('\n').slice(-9000);
+  if (!clean(lines)) { toast('مفيش كلام محفوظ كفاية للتقييم. اتكلم محادثة جديدة.'); return; }
+  const prof = S.items.profile || {};
+  G.assessBusy = true; renderProg();
+  try {
+    const r = await gen({ kind: 'smart', prompt: 'Estimate the CEFR level of an Arabic-speaking English learner from their spoken lines below (speech-to-text; ignore punctuation and capitalization).\nLearner profile: ' + (prof.text || '(none)') + '\nLEARNER LINES:\n' + lines + '\nReturn ONLY JSON: {"overall":"A2|B1|B2|C1","speaking":"A2|B1|B2|C1","grammar":"A2|B1|B2|C1","vocabulary":"A2|B1|B2|C1","notes_ar":"2-3 sentences in Egyptian Arabic explaining the estimate","next_ar":["3 concrete things to work on, Egyptian Arabic"]}' });
+    if (!r || !r.overall) throw { code: 'empty' };
+    Store.put('profile', { ...(S.items.profile || {}), kind: 'profile', assess: { ...r, ts: Date.now() } });
+  } catch (e) { toast(errMsg(e)); }
+  finally { G.assessBusy = false; if (S.tab === 'prog') withFocus(views.prog, renderProg); }
+}
+
+/* ================= SETTINGS ================= */
+function openSettings() {
+  const st = S.settings;
+  const body = h('div', { class: 'stack' });
+  const set = (k, val) => { st[k] = val; saveSettings(); if (k === 'accent') Speaker.pick(); renderSoon(); draw(); };
+  const seg = (k, options) => h('div', { class: 'row', role: 'group' }, options.map(([id, label]) => h('button', { class: 'chip', type: 'button', 'aria-pressed': String(st[k] === id), onclick: () => set(k, id) }, label)));
+  const draw = () => {
+    const info = Models.info;
+    body.replaceChildren(
+      st.apiKey ? h('div', { class: 'sect' },
+        h('h3', { text: 'مفتاح Gemini' }),
+        h('p', { class: 'small en', text: 'AIza…' + st.apiKey.slice(-4) }),
+        info ? h('p', { class: 'small muted' }, 'المحادثة: ', h('span', { class: 'en', text: Models.liveChain()[0] || 'مش متاحة' }), ' · النصوص: ', h('span', { class: 'en', text: Models.textChain('quick')[0] || '—' })) : null,
+        h('div', { class: 'row' },
+          h('button', { class: 'btn sm', type: 'button', onclick: async (e) => { const b = e.currentTarget; b.disabled = true; try { await Models.refresh(); toast('المفتاح شغال'); } catch (er) { toast(errMsg(er.code === 'http' ? { code: 'bad_key' } : er)); } finally { b.disabled = false; draw(); } } }, icon('refresh'), 'اختبر المفتاح'),
+          h('button', { class: 'btn sm', type: 'button', onclick: () => { body.replaceChildren(keySetupCard(true)); } }, icon('key'), 'غيّر المفتاح'),
+          h('a', { class: 'btn sm', href: 'https://aistudio.google.com/rate-limit', target: '_blank', rel: 'noopener' }, 'حدودك المجانية'))) : keySetupCard(true),
+      h('div', { class: 'sect' },
+        h('div', null, h('label', { class: 'f', text: 'نوع المحادثة' }), seg('mode', [['live', 'لايف (صوت قصاد صوت)'], ['turn', 'بالدور (جملة وجملة)']])),
+        h('p', { class: 'small muted', text: 'اللايف أطبع وتقدر تقاطعه. بالدور بيستهلك حصة أقل، وينفع لو حصة اللايف خلصت.' }),
+        h('div', null, h('label', { class: 'f', text: 'مستواك' }), seg('level', LEVELS.map(([id, l]) => [id, id + ' · ' + l]))),
+        h('div', null, h('label', { class: 'f', text: 'اللكنة' }), seg('accent', [['US', 'أمريكي'], ['UK', 'بريطاني']])),
+        h('div', null, h('label', { class: 'f', text: 'التصحيح في المحادثة' }), seg('correct', [['instant', 'فوري تحت كل جملة'], ['end', 'مطوي لحد ما أفتحه']]))),
+      h('div', { class: 'sect' },
+        h('h3', { text: 'المحادثة اللايف' }),
+        h('div', null, h('label', { class: 'f', text: 'صوته' }), seg('gvoice', GVOICES.map((v) => [v, v]))),
+        h('div', null, h('label', { class: 'f', for: 'silRange', text: 'يستنى قد إيه لما تسكت قبل ما يرد' }),
+          h('div', { class: 'range' }, h('input', { type: 'range', id: 'silRange', min: '500', max: '3000', step: '100', value: String(st.silenceMs), oninput: (e) => { st.silenceMs = Number(e.target.value); $('#silOut').textContent = (st.silenceMs / 1000).toFixed(1) + ' ث'; saveSettings(); } }), h('output', { id: 'silOut', text: (st.silenceMs / 1000).toFixed(1) + ' ث' }))),
+        h('p', { class: 'small muted', text: 'لو بيقاطعك وانت بتفكر، زوّد المدة. التغيير بيشتغل من المحادثة الجاية.' })),
+      h('div', { class: 'sect' },
+        h('h3', { text: 'صوت الموبايل (للكلمات وبالدور)' }),
+        h('div', null, h('label', { class: 'f', for: 'rateRange', text: 'السرعة' }),
+          h('div', { class: 'range' }, h('input', { type: 'range', id: 'rateRange', min: '0.6', max: '1.3', step: '0.05', value: String(st.rate), oninput: (e) => { st.rate = Number(e.target.value); $('#rateOut').textContent = st.rate.toFixed(2) + '×'; saveSettings(); } }), h('output', { id: 'rateOut', class: 'en', text: Number(st.rate).toFixed(2) + '×' }))),
+        h('button', { class: 'btn sm', type: 'button', onclick: () => Speaker.say('Hi! This is how I sound. Let\'s practise together.') }, icon('speaker'), 'جرّب الصوت'),
+        h('label', { class: 'switch' }, h('span', { text: 'اقرأ ردوده بصوت عالي في وضع بالدور' }), h('input', { type: 'checkbox', checked: st.autoSpeak, onchange: (e) => set('autoSpeak', e.target.checked) }))),
+      h('div', { class: 'sect' },
+        h('h3', { text: 'بياناتك' }),
+        h('p', { class: 'small muted', text: 'كلماتك وأخطاءك ومحادثاتك محفوظة على الموبايل ده بس. اعمل نسخة احتياطية كل فترة.' }),
+        h('div', { class: 'row' },
+          h('button', { class: 'btn sm', type: 'button', onclick: exportData }, 'نزّل نسخة احتياطية'),
+          h('label', { class: 'btn sm', for: 'importIn' }, 'رجّع نسخة'),
+          h('input', { type: 'file', id: 'importIn', class: 'vh', accept: 'application/json,.json', onchange: (e) => importData(e.target) })),
+        h('button', { class: 'btn sm danger', type: 'button', onclick: (e) => {
+          const b = e.currentTarget;
+          if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = 'متأكد؟ دوس تاني تمسح كل حاجة'; setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = 'امسح كل البيانات'; } }, 4000); return; }
+          S.items = {}; Store.save(); toast('اتمسحت كل البيانات'); renderSoon(); draw();
+        } }, 'امسح كل البيانات'))
+    );
+  };
+  draw();
+  openSheet('الإعدادات', body);
+}
+function exportData() {
+  const data = { app: 'talaqa', v: 2, exported: Date.now(), items: S.items, settings: { ...S.settings, apiKey: '' } };
+  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+  const d = new Date(); const name = 'talaqa-backup-' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + '.json';
+  const a = h('a', { href: URL.createObjectURL(blob), download: name });
+  document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  toast('النسخة الاحتياطية بتنزل');
+}
+function importData(input) {
+  const f = input.files && input.files[0]; input.value = ''; if (!f) return;
+  f.text().then((t) => {
+    const d = JSON.parse(t);
+    if (!d || d.app !== 'talaqa' || typeof d.items !== 'object') throw new Error('bad');
+    S.items = { ...S.items, ...d.items };
+    if (d.settings) { const key = S.settings.apiKey; S.settings = { ...DEFAULT_SETTINGS, ...d.settings, apiKey: key }; saveSettings(); }
+    Store.save(); toast('رجّعت النسخة الاحتياطية'); renderSoon(); closeSheet();
+  }).catch(() => toast('الملف ده مش نسخة احتياطية من طلاقة.'));
+}
+
+/* ================= Boot ================= */
+function boot() {
+  Store.load();
+  buildShell();
+  renderAll();
+  if (S.settings.apiKey && (!Models.info || Date.now() - Models.info.ts > 3 * 86400000)) Models.refresh().catch(() => {});
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+boot();
+})();
+</script>
+</body>
+</html>
